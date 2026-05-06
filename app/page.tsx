@@ -37,14 +37,14 @@ const page = () => {
       <div className="flex flex-col items-center gap-1">
         <div className="flex items-baseline gap-1.5">
           <span className="text-3xl font-bold tracking-tight bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            chaos
+            Chaos
           </span>
           <span className="text-3xl font-bold tracking-tight text-white">
-            feed
+            Feed
           </span>
         </div>
         <p className="text-sm text-white/40 text-center max-w-[200px]">
-          every second counts
+          Every second counts
         </p>
       </div>
 
