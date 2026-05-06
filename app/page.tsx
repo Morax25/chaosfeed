@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 const page = () => {
   const router = useRouter();
@@ -54,7 +53,7 @@ const page = () => {
           onClick={() => {
             router.push("/app");
           }}
-          className="w-full py-4 rounded-full bg-[#0a0a0f] border border-purple-500/40 text-white font-bold text-sm tracking-[0.2em] uppercase
+          className="w-full cursor-pointer py-4 rounded-full bg-[#0a0a0f] border border-purple-500/40 text-white font-bold text-sm tracking-[0.2em] uppercase
             shadow-[0_0_10px_rgba(168,85,247,0.4),0_0_20px_rgba(236,72,153,0.3)]
             animate-[pulse_2s_ease-in-out_infinite]"
         >
