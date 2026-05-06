@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 const page = () => {
   const router = useRouter();
   return (
-    <div className="min-h-screen w-full bg-[#0a0a0f] flex justify-center items-center flex-col gap-6 relative overflow-hidden">
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-purple-700/20 blur-3xl pointer-events-none" />
+    <div className="min-h-screen w-full bg-black flex justify-center items-center flex-col gap-6 relative overflow-hidden">
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative h-max w-full px-5 py-10 min-h-20 flex justify-center items-center">
         <div className="h-30 rotate-15 animate-[spin_10s_linear_infinite] w-30 bg-[linear-gradient(90deg,rgba(131,58,180,1)_0%,_rgba(252,78,78,1)_100%,_rgba(252,176,69,1)_100%)] rounded-[20px] shadow-lg shadow-red-300/40"></div>
