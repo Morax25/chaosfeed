@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", roboto.variable)}
     >
-      <body className="min-h-full flex flex-col bg-gray-900 h-screen w-screen overflow-x-hidden text-gray-300">{children}</body>
+      <body className="min-h-full flex flex-col bg-black h-screen w-screen overflow-x-hidden text-gray-300">{children}</body>
     </html>
   );
 }
