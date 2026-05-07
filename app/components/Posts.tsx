@@ -11,7 +11,7 @@ import {
 
 const Posts = ({title, pfp, username}:{title:string, pfp:string, username:string}) => {
   return (
-    <Card className="p-3 text-white bg-gray-900/80 w-full h-max rounded-[15px]">
+    <Card className="text-white bg-gray-900/80 w-full h-max rounded-[15px]">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex justify-center items-center gap-2">

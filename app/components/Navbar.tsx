@@ -11,7 +11,7 @@ const Navbar = () => {
     setOpen((prev)=>!prev)
   }
   return (
-    <div className="fixed bottom-0 w-full flex justify-center z-50">
+    <div className="fixed bottom-0 pb-3 w-full flex justify-center z-50">
       <AppDrawer children={<CreatePost/>} open={open} onClose={()=>{setOpen(false)}} title='My app'/>
       <div className="relative flex items-center justify-around w-11/12 max-w-lg bg-white/1 backdrop-blur-md border border-white/20 rounded-[15px] py-4 shadow-md">
         <Globe

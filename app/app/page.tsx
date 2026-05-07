@@ -105,7 +105,7 @@ const page = () => {
   },
 ]
   return (
-<div className='pt-2 pb-20 relative sm:px-4 flex flex-col gap-5 h-full w-full'>
+<div className='pt-2 pb-20 relative px-2 sm:px-4 flex flex-col gap-5 h-full w-full'>
   {posts.map((item, index) => (
     <Posts
       key={index}
