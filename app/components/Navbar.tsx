@@ -3,6 +3,7 @@ import { Globe, Plus, User } from "lucide-react";
 import React, { useState } from "react";
 import { AppDrawer } from "./Drawer";
 import Posts from "./Posts";
+import CreatePost from "./CreatePost";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false)
@@ -11,7 +12,7 @@ const Navbar = () => {
   }
   return (
     <div className="fixed bottom-0 w-full flex justify-center z-50">
-      <AppDrawer children={<Posts/>} open={open} onClose={()=>{setOpen(false)}} title='My app'/>
+      <AppDrawer children={<CreatePost/>} open={open} onClose={()=>{setOpen(false)}} title='My app'/>
       <div className="relative flex items-center justify-around w-11/12 max-w-lg bg-white/1 backdrop-blur-md border border-white/20 rounded-[15px] py-4 shadow-md">
         <Globe
           className="cursor-pointer hover:text-pink-600 transition-all duration-300 ease-out hover:scale-110"

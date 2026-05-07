@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "sonner";
 
-const roboto = Roboto({subsets:['latin'],variable:'--font-sans'});
+const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +29,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", roboto.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+        roboto.variable,
+      )}
     >
-      <body className="min-h-full flex flex-col bg-black h-screen w-screen overflow-x-hidden text-gray-300">{children}</body>
+      <body className="min-h-full flex flex-col bg-black h-screen w-screen overflow-x-hidden text-gray-300">
+        {children}
+        <Toaster position="top-center" richColors theme="dark" />
+      </body>
     </html>
   );
 }
