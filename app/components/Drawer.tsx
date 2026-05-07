@@ -2,16 +2,16 @@
 
 import * as React from "react"
 import { X } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
   DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
-  DrawerTitle,
+ DrawerContent,
   DrawerDescription,
-  DrawerTrigger,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
 } from "@/components/ui/drawer"
 
 interface AppDrawerProps {
@@ -33,23 +33,40 @@ export const AppDrawer = ({
 }: AppDrawerProps) => {
   return (
     <Drawer open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DrawerContent className="w-full h-full bg-gray-700 fle flex-col">
-        <div className="flex justify-between items-center mb-2">
-          <DrawerHeader>
-            <DrawerTitle className="text-white">{title}</DrawerTitle>
-            {description && <DrawerDescription>{description}</DrawerDescription>}
+      <DrawerContent className="w-full h-full bg-zinc-900 border-none flex flex-col">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+          <DrawerHeader className="p-0 space-y-0.5">
+            <DrawerTitle className="text-white text-lg font-semibold leading-none">
+              {title}
+            </DrawerTitle>
+
+            {description && (
+              <DrawerDescription className="text-xs text-zinc-400">
+                {description}
+              </DrawerDescription>
+            )}
           </DrawerHeader>
+
           <DrawerClose asChild>
-            <Button variant="ghost" size="icon">
-              <X size={40} color="white" className="bg-red-800 rounded-full cursor-pointer" />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="group transition transition-all duration-200 h-9 w-9 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 active:scale-95 transition-all duration-200 cursor-pointer"
+            >
+              <X
+                size={18}
+                className="text-white transition transition-all duration-200 group-hover:rotate-90"
+              />
             </Button>
           </DrawerClose>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4">{children}</div>
+        <div className="flex-1 overflow-y-auto px-4 py-4">
+          {children}
+        </div>
 
         {footer && (
-          <DrawerFooter className="px-4 pt-4">
+          <DrawerFooter className="px-4 pt-4 border-t border-white/10">
             {footer}
           </DrawerFooter>
         )}
