@@ -1,11 +1,9 @@
 "use client"
 import { Globe, Plus, User } from "lucide-react";
 import { useDrawer } from "@/store/drawerStore";
-import CreatePost from "./CreatePost";
 
 const Navbar = () => {
   const openDrawer = useDrawer((state)=>state.openDrawer)
-  const onClose = useDrawer((state)=>state.closeDrawer)
 
   return (
     <div className="fixed bottom-0 pb-3 w-full flex justify-center z-50">

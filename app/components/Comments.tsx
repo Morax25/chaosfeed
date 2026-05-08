@@ -17,39 +17,35 @@ const Comments = () => {
           <Send size={18} strokeWidth={2.5} />
         </button>
       </div>
-<div className="flex-1 overflow-y-auto pr-2 space-y-3 mt-4 relative">
-        {/* Top Fade */}
+      <div className="flex-1 overflow-y-auto pr-2 space-y-3 mt-4 relative">
         <div className="sticky top-0 h-8 bg-gradient-to-b from-slate-950 to-transparent pointer-events-none z-10" />
-
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-
-        {/* Bottom Fade */}
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
+        <Comment />
         <div className="sticky bottom-0 h-8 bg-gradient-to-t from-slate-950 to-transparent pointer-events-none z-10" />
       </div>
     </div>

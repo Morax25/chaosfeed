@@ -16,6 +16,8 @@ import {
 
 import { useDrawer } from "@/store/drawerStore"
 import CreatePost from "./CreatePost"
+import Statics from "./Statics"
+import Comments from "./Comments"
 
 export const AppDrawer = () => {
   const open = useDrawer((s) => s.open)
@@ -63,8 +65,11 @@ export const AppDrawer = () => {
             <CreatePost {...props} />
           )}
 
+          {type === "statics" && (
+            <Statics {...props} />
+          )}
           {type === "comments" && (
-            <CreatePost {...props} />
+            <Comments {...props} />
           )}
         </div>
 

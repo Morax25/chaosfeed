@@ -3,15 +3,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import {
-  Clock,
-  Heart,
-  MessageCircle,
-  TrendingUp,
-} from "lucide-react";
+import { Clock, Heart, MessageCircle, TrendingUp } from "lucide-react";
 
-const Posts = ({title, pfp, username}:{title:string, pfp:string, username:string}) => {
-  const router = useRouter()
+const Posts = ({
+  title,
+  pfp,
+  username,
+}: {
+  title: string;
+  pfp: string;
+  username: string;
+}) => {
+  const router = useRouter();
   return (
     <Card className="text-white bg-gray-900/80 w-full h-max rounded-[15px]">
       <CardHeader>
@@ -46,14 +49,17 @@ const Posts = ({title, pfp, username}:{title:string, pfp:string, username:string
       </CardHeader>
       <CardContent>
         <div className="p-3 text-lg rounded-[10px] bg-black border border-white/10 shadow shadow-lg">
-          <p>
- {title}
-          </p>
+          <p>{title}</p>
           <div className="mt-3 border-t border-t-gray-400/30 flex justify-start items-center font-bold text-sm gap-4 pt-3">
             <div className="flex hover:text-pink-600 hover:scale-120 transition cursor-pointer items-center justify-center gap-1">
               <Heart size={20} strokeWidth={3} /> <p>25</p>
             </div>
-            <div onClick={()=>{router.push(`/feed/dwadbaw`)}} className="flex items-center  hover:text-pink-600 transition hover:scale-115 cursor-pointer justify-center gap-1">
+            <div
+              onClick={() => {
+                router.push(`/feed/dwadbaw`);
+              }}
+              className="flex items-center  hover:text-pink-600 transition hover:scale-115 cursor-pointer justify-center gap-1"
+            >
               <MessageCircle className="" strokeWidth={3} size={18} /> <p>20</p>
             </div>
           </div>

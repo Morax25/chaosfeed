@@ -4,11 +4,11 @@ type DrawerState = {
   open: boolean
   title: string
   description?: string
-  type: "createPost" | "comments" | null
+  type: "createPost" | "comments" | 'statics' |null
   props: Record<string, any>
 
   openDrawer: (data: {
-    type: "createPost" | "comments"
+    type: "createPost" | "comments" | 'statics'
     title: string
     description?: string
     props?: Record<string, any>
