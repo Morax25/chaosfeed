@@ -2,6 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 import {
   Clock,
   Heart,
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 
 const Posts = ({title, pfp, username}:{title:string, pfp:string, username:string}) => {
+  const router = useRouter()
   return (
     <Card className="text-white bg-gray-900/80 w-full h-max rounded-[15px]">
       <CardHeader>
@@ -51,7 +53,7 @@ const Posts = ({title, pfp, username}:{title:string, pfp:string, username:string
             <div className="flex hover:text-pink-600 hover:scale-120 transition cursor-pointer items-center justify-center gap-1">
               <Heart size={20} strokeWidth={3} /> <p>25</p>
             </div>
-            <div className="flex items-center  hover:text-pink-600 transition hover:scale-115 cursor-pointer justify-center gap-1">
+            <div onClick={()=>{router.push(`/app/${title}`)}} className="flex items-center  hover:text-pink-600 transition hover:scale-115 cursor-pointer justify-center gap-1">
               <MessageCircle className="" strokeWidth={3} size={18} /> <p>20</p>
             </div>
           </div>
