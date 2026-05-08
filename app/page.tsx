@@ -52,7 +52,7 @@ const page = () => {
       <div className="relative mt-4 w-64">
         <button
           onClick={() => {
-            router.push("/app");
+            router.push("/feed");
           }}
           className="w-full flex justify-center items-center gap-1 cursor-pointer py-4 rounded-full bg-[#0a0a0f] border border-purple-500/40 text-white font-bold text-sm tracking-[0.2em] uppercase
             shadow-[0_0_10px_rgba(168,85,247,0.4),0_0_20px_rgba(236,72,153,0.3)]

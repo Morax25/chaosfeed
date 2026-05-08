@@ -53,7 +53,7 @@ const Posts = ({title, pfp, username}:{title:string, pfp:string, username:string
             <div className="flex hover:text-pink-600 hover:scale-120 transition cursor-pointer items-center justify-center gap-1">
               <Heart size={20} strokeWidth={3} /> <p>25</p>
             </div>
-            <div onClick={()=>{router.push(`/app/${title}`)}} className="flex items-center  hover:text-pink-600 transition hover:scale-115 cursor-pointer justify-center gap-1">
+            <div onClick={()=>{router.push(`/feed/dwadbaw`)}} className="flex items-center  hover:text-pink-600 transition hover:scale-115 cursor-pointer justify-center gap-1">
               <MessageCircle className="" strokeWidth={3} size={18} /> <p>20</p>
             </div>
           </div>

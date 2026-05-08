@@ -41,7 +41,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-black h-screen w-screen overflow-x-hidden text-gray-300">
         {children}
-        <AppDrawer/>
+        <AppDrawer />
         <Toaster position="top-center" richColors theme="dark" />
       </body>
     </html>
