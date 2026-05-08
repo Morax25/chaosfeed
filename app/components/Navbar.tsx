@@ -1,18 +1,14 @@
 "use client"
 import { Globe, Plus, User } from "lucide-react";
-import React, { useState } from "react";
-import { AppDrawer } from "./Drawer";
-import Posts from "./Posts";
+import { useDrawer } from "@/store/drawerStore";
 import CreatePost from "./CreatePost";
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false)
-  const handleDrawerOpen = () => {
-    setOpen((prev)=>!prev)
-  }
+  const openDrawer = useDrawer((state)=>state.openDrawer)
+  const onClose = useDrawer((state)=>state.closeDrawer)
+
   return (
     <div className="fixed bottom-0 pb-3 w-full flex justify-center z-50">
-      <AppDrawer children={<CreatePost/>} open={open} onClose={()=>{setOpen(false)}} title='My app'/>
       <div className="relative flex items-center justify-around w-11/12 max-w-lg bg-white/1 backdrop-blur-md border border-white/20 rounded-[15px] py-4 shadow-md">
         <Globe
           className="cursor-pointer hover:text-pink-600 transition-all duration-300 ease-out hover:scale-110"
@@ -21,7 +17,10 @@ const Navbar = () => {
 
         <div className="absolute -top-7 left-1/2 -translate-x-1/2">
           <div
-          onClick={handleDrawerOpen}
+          onClick={()=>{openDrawer({
+            type:"createPost",
+            title:"Post",
+          })}}
             className="
               bg-purple-700 p-2 rounded-full border-[3px] border-black
               flex items-center justify-center

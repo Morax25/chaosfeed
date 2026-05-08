@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { AppDrawer } from "./components/Drawer";
 
 const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -40,6 +41,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-black h-screen w-screen overflow-x-hidden text-gray-300">
         {children}
+        <AppDrawer/>
         <Toaster position="top-center" richColors theme="dark" />
       </body>
     </html>

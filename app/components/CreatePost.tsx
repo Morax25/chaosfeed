@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { useDrawer } from "@/store/drawerStore";
 
 interface CreatePostProps {
   onPublish?: (content: string) => void;
@@ -12,7 +13,8 @@ interface CreatePostProps {
 const CreatePost = ({ onPublish }: CreatePostProps) => {
   const [content, setContent] = useState("");
   const [isPublishing, setIsPublishing] = useState(false);
-
+  const openDrawer = useDrawer((state) => state.openDrawer);
+  const onClose = useDrawer((state) => state.closeDrawer);
   const handlePublish = async () => {
     if (!content.trim()) return;
 
@@ -23,23 +25,24 @@ const CreatePost = ({ onPublish }: CreatePostProps) => {
     onPublish?.(content);
 
     setContent("");
-    toast.success("Post published")
+    toast.success("Post published");
     setIsPublishing(false);
+    onClose()
   };
 
   const isDisabled = !content.trim() || isPublishing;
 
   return (
-    <Card className="w-full h-fit bg-zinc-900 border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+    <Card className="w-full h-fit bg-black border border-white/10 rounded-[15px] overflow-hidden overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.45)] backdrop-blur-xl">
       <CardContent className="p-0 flex flex-col">
-        <div className="px-4 py-3 border-b border-white/5 flex items-center gap-3">
+        <div className="px-4 py-3 border-b border-white/15 flex items-center gap-3">
           <div className="h-10 w-10 rounded-full bg-gradient-to-br from-fuchsia-500/20 to-purple-500/20 border border-fuchsia-400/20 flex items-center justify-center shrink-0">
             <div className="h-5 w-5 rounded-full bg-gradient-to-br from-fuchsia-400 to-purple-500" />
           </div>
 
           <div className="flex flex-col">
             <span className="text-sm font-semibold text-white">
-              Create Pulse
+              Create Feed
             </span>
             <span className="text-xs text-zinc-500">
               Share something with everyone
@@ -59,7 +62,7 @@ const CreatePost = ({ onPublish }: CreatePostProps) => {
           <div className="mt-3 flex items-center justify-between">
             <span
               className={`text-xs transition-colors ${
-                content.length > 240 ? "text-orange-400" : "text-zinc-500"
+                content.length > 240 ? "text-red-500" : "text-zinc-500"
               }`}
             >
               {content.length}/280
@@ -86,7 +89,7 @@ const CreatePost = ({ onPublish }: CreatePostProps) => {
           ? "bg-zinc-800 border-white/5 text-zinc-500 cursor-not-allowed"
           : `
             cursor-pointer
-            bg-gradient-to-r from-fuchsia-600 via-pink-500 to-purple-600
+            bg-purple-600
             border-fuchsia-400/20
             text-white
             hover:brightness-110
