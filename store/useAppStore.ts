@@ -16,6 +16,7 @@ type Post = {
   likes: number
   likedByMe?: boolean
   user: User
+  comments: number
   createdAt?: number
 }
 
@@ -29,18 +30,15 @@ type Comment = {
 type State = {
   socket: Socket | null
   user: User | null
-
+  userCount: number
   feed: Post[]
   comments: Comment[]
-
   setSocket: (s: Socket) => void
   setUser: (u: User) => void
-
+  setUserCount: (count: number) => void
   setFeed: (f: Post[]) => void
-
   addPost: (p: Post) => void
   upsertPost: (p: Post) => void
-
   addComment: (c: Comment) => void
 }
 
@@ -49,35 +47,29 @@ export const useAppStore = create<State>()(
     (set, get) => ({
       socket: null,
       user: null,
-
+      userCount: 0,
       feed: [],
       comments: [],
-
       setSocket: (s) => set({ socket: s }),
       setUser: (u) => set({ user: u }),
-
+      setUserCount: (count) => set({ userCount: count }),
       setFeed: (f) => set({ feed: f }),
-
       addPost: (p) => {
         const state = get()
         const exists = state.feed.some((x) => x.id === p.id)
         if (exists) return
         set({ feed: [p, ...state.feed] })
       },
-
       upsertPost: (p) =>
         set((state) => {
           const index = state.feed.findIndex((x) => x.id === p.id)
-
           if (index !== -1) {
             const updated = [...state.feed]
             updated[index] = p
             return { feed: updated }
           }
-
           return { feed: [p, ...state.feed] }
         }),
-
       addComment: (c) =>
         set((state) => ({
           comments: [c, ...state.comments],

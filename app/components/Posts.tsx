@@ -14,12 +14,16 @@ const Posts = ({
   username,
   id,
   createdAt,
+  comments,
+  likes
 }: {
   title: string;
   pfp: string;
   username: string;
   id: string;
   createdAt: any;
+  comments:number;
+  likes:number;
 }) => {
   const router = useRouter();
   const socket = useAppStore((s) => s.socket);
@@ -79,14 +83,14 @@ const Posts = ({
 
           <div className="mt-3 border-t border-t-gray-400/30 flex items-center font-bold text-sm gap-4 pt-3">
             <div className="flex hover:text-pink-600 transition cursor-pointer items-center gap-1">
-              <Heart size={20} strokeWidth={3} /> <p>25</p>
+              <Heart size={20} strokeWidth={3} /> <p>{likes || 0}</p>
             </div>
 
             <div
               onClick={() => router.push(`/feed/${id}`)}
               className="flex items-center hover:text-pink-600 transition cursor-pointer gap-1"
             >
-              <MessageCircle size={18} strokeWidth={3} /> <p>20</p>
+              <MessageCircle size={18} strokeWidth={3} /> <p>{comments || 0}</p>
             </div>
           </div>
         </div>
