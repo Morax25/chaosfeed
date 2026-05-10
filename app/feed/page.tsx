@@ -1,121 +1,85 @@
 "use client"
-import Posts from '../components/Posts'
 
-const page = () => {
-  const posts = [
-  {
-    username: "codewithraj",
-    pfp: "https://i.pravatar.cc/150?img=1",
-    title: "Finally understood how async await actually works",
-  },
-  {
-    username: "devnisha",
-    pfp: "https://i.pravatar.cc/150?img=5",
-    title: "Spent 6 hours debugging a missing await",
-  },
-  {
-    username: "aryanbuilds",
-    pfp: "https://i.pravatar.cc/150?img=8",
-    title: "Why is Docker networking so confusing sometimes",
-  },
-  {
-    username: "backendboy",
-    pfp: "https://i.pravatar.cc/150?img=12",
-    title: "Just deployed my first fullstack app on VPS",
-  },
-  {
-    username: "sneha.codes",
-    pfp: "https://i.pravatar.cc/150?img=16",
-    title: "Redis caching made my API insanely fast",
-  },
-  {
-    username: "nullpointer",
-    pfp: "https://i.pravatar.cc/150?img=20",
-    title: "Anyone else overthinking database design?",
-  },
-  {
-    username: "pixeldev",
-    pfp: "https://i.pravatar.cc/150?img=25",
-    title: "Today I learned how JWT authentication really works",
-  },
-  {
-    username: "thebughunter",
-    pfp: "https://i.pravatar.cc/150?img=28",
-    title: "Socket.IO feels like magic sometimes",
-  },
-  {
-    username: "its_me_adi",
-    pfp: "https://i.pravatar.cc/150?img=31",
-    title: "MongoDB aggregation pipeline is breaking my brain",
-  },
-  {
-    username: "stacktrace",
-    pfp: "https://i.pravatar.cc/150?img=35",
-    title: "Accidentally crashed my server with an infinite loop",
-  },
-  {
-    username: "frontendwizard",
-    pfp: "https://i.pravatar.cc/150?img=40",
-    title: "Trying to understand system design as a solo developer",
-  },
-  {
-    username: "node_ninja",
-    pfp: "https://i.pravatar.cc/150?img=44",
-    title: "BullMQ is honestly underrated",
-  },
-  {
-    username: "sqlmaster",
-    pfp: "https://i.pravatar.cc/150?img=48",
-    title: "PostgreSQL joins finally make sense to me now",
-  },
-  {
-    username: "uiuxghost",
-    pfp: "https://i.pravatar.cc/150?img=52",
-    title: "Why does CSS behave differently every single time",
-  },
-  {
-    username: "socketking",
-    pfp: "https://i.pravatar.cc/150?img=56",
-    title: "Built a realtime chat app and it actually works",
-  },
-  {
-    username: "deepcoder",
-    pfp: "https://i.pravatar.cc/150?img=60",
-    title: "Learning backend architecture is way harder than frontend",
-  },
-  {
-    username: "memoryleak",
-    pfp: "https://i.pravatar.cc/150?img=64",
-    title: "Finally fixed a memory leak in my Node.js app",
-  },
-  {
-    username: "cachewarrior",
-    pfp: "https://i.pravatar.cc/150?img=68",
-    title: "Anyone using Redis for rate limiting in production?",
-  },
-  {
-    username: "rerendered",
-    pfp: "https://i.pravatar.cc/150?img=72",
-    title: "React rerenders are still confusing me",
-  },
-  {
-    username: "deploypanic",
-    pfp: "https://i.pravatar.cc/150?img=76",
-    title: "Switched from localhost to production and everything broke",
-  },
-]
+import { useEffect, useState } from "react"
+import Posts from "../components/Posts"
+import { useAppStore } from "@/store/useAppStore"
+import { fetchPosts } from "../../actions/posts"
+
+const Page = () => {
+  const feed = useAppStore((s) => s.feed)
+  const setFeed = useAppStore((s) => s.setFeed)
+
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let mounted = true
+
+    const load = async () => {
+      try {
+        setLoading(true)
+        const posts = await fetchPosts()
+
+        if (mounted) {
+          setFeed(posts || [])
+        }
+      } catch (err) {
+        console.error("Failed to load feed:", err)
+        if (mounted) setFeed([])
+      } finally {
+        if (mounted) setLoading(false)
+      }
+    }
+
+    load()
+
+    return () => {
+      mounted = false
+    }
+  }, [setFeed])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="h-10 w-10 rounded-full border-2 border-fuchsia-500/30 border-t-fuchsia-500 animate-spin" />
+      </div>
+    )
+  }
+
   return (
-<div className='pt-2 relative px-2 sm:px-4 flex flex-col gap-5 h-full w-full'>
-  {posts.map((item, index) => (
-    <Posts
-      key={index}
-      title={item.title}
-      username={item.username}
-      pfp={item.pfp}
-    />
-  ))}
-</div>
+    <div className="pt-2 px-2 sm:px-4 flex flex-col gap-5">
+      {feed.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="relative">
+            <div className="absolute inset-0 blur-2xl bg-fuchsia-600/20 rounded-full" />
+            <div className="relative px-6 py-4 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_0_40px_rgba(192,38,211,0.15)]">
+              <h2 className="text-xl sm:text-2xl font-semibold text-white">
+                Be the first to start chaos
+              </h2>
+              <p className="text-sm text-zinc-400 mt-2">
+                No posts yet. Drop something and ignite the feed.
+              </p>
+              <div className="mt-4 flex justify-center">
+                <span className="px-3 py-1 text-xs rounded-full bg-fuchsia-500/10 text-fuchsia-300 border border-fuchsia-500/20">
+                  realtime • ephemeral • raw
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        feed.map((item) => (
+          <Posts
+            id={item.id}
+            key={item.id}
+            title={item.content}
+            username={item.user?.username}
+            pfp={item.user?.pfp}
+            createdAt={item.createdAt}
+          />
+        ))
+      )}
+    </div>
   )
 }
 
-export default page
+export default Page
