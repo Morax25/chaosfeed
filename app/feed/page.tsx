@@ -69,6 +69,8 @@ const Page = () => {
       ) : (
         feed.map((item) => (
           <Posts
+            comments={item.comments}
+            likes={item.likes}
             id={item.id}
             key={item.id}
             title={item.content}
