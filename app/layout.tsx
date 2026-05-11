@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -6,74 +6,69 @@ import { Toaster } from "sonner";
 import { AppDrawer } from "./components/Drawer";
 import { RealtimeProvider } from "@/providers/RealTimeProvider";
 
-const roboto = Roboto({ subsets: ["latin"], variable: "--font-sans" });
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://chaosfeed.live"),
+
   title: {
-    default: "ChaossFeed — Anonymous Real-Time Social Feed",
-    template: "%s | ChaossFeed"
+    default: "Anonymous Real-Time Social Feed | ChaossFeed",
+    template: "%s | ChaossFeed",
   },
-  description: "An anonymous real-time social feed where posts self-destruct. Share chaotic thoughts, react instantly, stay anonymous forever. No login required.",
+
+  description:
+    "ChaossFeed is an anonymous real-time social feed where anyone can post instantly. No login, no account, and every post disappears automatically after 90 seconds.",
+
+  applicationName: "ChaossFeed",
+
   keywords: [
-    // Core
-    "anonymous social media",
-    "real-time feed",
-    "ephemeral posts",
-    "anonymous chat",
-    "self destructing posts",
+    "anonymous social feed",
     "anonymous posting",
-    "no login social media",
-    "temporary posts",
-    "live feed",
-    "anonymous reactions",
-    // English speaking markets
-    "english anonymous chat",
-    "usa anonymous chat",
-    "uk anonymous chat",
-    "australia anonymous chat",
-    "canada anonymous chat",
-    "american social media",
-    // Brazil/Portuguese
-    "chat anonimo",
-    "rede social anonima",
-    "posts temporarios",
-    "chat brasil",
-    "chat anonimo brasileiro",
-    "feed em tempo real",
-    // Spanish markets
-    "chat anonimo español",
-    "red social anonima",
-    "chat latino",
-    "posts anonimos",
-    // India
-    "anonymous chat india",
-    "indian anonymous social media",
-    // General viral/trending
-    "burn after reading",
+    "anonymous chat",
+    "real time social feed",
+    "live social feed",
     "disappearing posts",
-    "chaotic social feed",
-    "anonymous thoughts",
-    "real time social network",
-    "no signup social media",
-    "free anonymous chat",
-    "stranger chat",
-    "random chat online",
-    "post anonymously"
+    "ephemeral social media",
+    "no login social media",
+    "anonymous confessions",
+    "chaosfeed",
   ],
+
   authors: [{ name: "ChaossFeed" }],
   creator: "ChaossFeed",
   publisher: "ChaossFeed",
+  category: "social media",
+
+  alternates: {
+    canonical: "https://chaosfeed.live",
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+  },
+
   robots: {
     index: true,
     follow: true,
@@ -82,38 +77,73 @@ export const metadata: Metadata = {
       follow: true,
       "max-image-preview": "large",
       "max-snippet": -1,
-    }
+      "max-video-preview": -1,
+    },
   },
+
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://chaosfeed.live",
     siteName: "ChaossFeed",
-    title: "ChaossFeed — Anonymous Real-Time Social Feed",
-    description: "Share chaotic thoughts anonymously. Posts self-destruct. No login required.",
+    title: "Anonymous Real-Time Social Feed | ChaossFeed",
+    description:
+      "Post instantly. Stay anonymous. Every post disappears after 90 seconds. No login required.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ChaossFeed — Anonymous Real-Time Social Feed"
-      }
-    ]
+        alt: "ChaossFeed — Anonymous real-time social feed",
+      },
+    ],
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "ChaossFeed — Anonymous Real-Time Social Feed",
-    description: "Share chaotic thoughts anonymously. Posts self-destruct. No login required.",
+    title: "Anonymous Real-Time Social Feed | ChaossFeed",
+    description:
+      "Post instantly. Stay anonymous. Every post disappears after 90 seconds.",
     images: ["/og-image.png"],
   },
-  alternates: {
-    canonical: "https://chaosfeed.live"
-  },
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png"
-  },
-  category: "social media"
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      name: "ChaossFeed",
+      alternateName: ["Chaos Feed", "chaosfeed.live"],
+      url: "https://chaosfeed.live",
+      applicationCategory: "SocialNetworkingApplication",
+      operatingSystem: "Web",
+      description:
+        "Anonymous real-time social feed where posts disappear automatically after 90 seconds. No login required.",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      featureList: [
+        "Anonymous posting",
+        "Real-time feed",
+        "Self-destructing posts",
+        "No login required",
+        "No account needed",
+      ],
+    },
+    {
+      "@type": "Organization",
+      name: "ChaossFeed",
+      url: "https://chaosfeed.live",
+    },
+    {
+      "@type": "WebSite",
+      name: "ChaossFeed",
+      url: "https://chaosfeed.live",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -129,35 +159,21 @@ export default function RootLayout({
         "antialiased",
         geistSans.variable,
         geistMono.variable,
-        "font-sans",
         roboto.variable,
+        "font-sans",
       )}
     >
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebApplication",
-              "name": "ChaossFeed",
-              "url": "https://chaosfeed.live",
-              "description": "Anonymous real-time social feed where posts self-destruct",
-              "applicationCategory": "SocialNetworkingApplication",
-              "operatingSystem": "Web",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-              }
-            })
+            __html: JSON.stringify(structuredData),
           }}
         />
       </head>
+
       <body className="min-h-full flex flex-col bg-black h-screen w-screen overflow-x-hidden text-gray-300">
-        <RealtimeProvider>
-          {children}
-        </RealtimeProvider>
+        <RealtimeProvider>{children}</RealtimeProvider>
         <AppDrawer />
         <Toaster position="top-center" richColors theme="dark" />
       </body>
