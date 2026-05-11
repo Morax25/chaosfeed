@@ -1,7 +1,10 @@
 export const fetchPosts = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SOCKET_URL}/api/feed`, {
-    cache: "no-store",
-  })
+  const userId = localStorage.getItem("userId")
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SOCKET_URL}/api/feed${userId ? `?userId=${userId}` : ""}`,
+    { cache: "no-store" }
+  )
 
   if (!res.ok) throw new Error("Failed to fetch posts")
 

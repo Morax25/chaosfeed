@@ -1,86 +1,106 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Comments from "@/app/components/Comments"
-import Posts from "@/app/components/Posts"
-import { useAppStore } from "@/store/useAppStore"
-import { useParams } from "next/navigation"
+import { useEffect, useState } from "react";
+import Comments from "@/app/components/Comments";
+import Posts from "@/app/components/Posts";
+import { useAppStore } from "@/store/useAppStore";
+import { useParams } from "next/navigation";
 
 const Page = () => {
-  const { post } = useParams<{ post: string }>()
+  const { post } = useParams<{ post: string }>();
 
-  const socket = useAppStore((s) => s.socket)
-  const feed = useAppStore((s) => s.feed)
-  const setFeed = useAppStore((s) => s.setFeed)
+  const socket = useAppStore((s) => s.socket);
+  const feed = useAppStore((s) => s.feed);
+  const setFeed = useAppStore((s) => s.setFeed);
+  const upsertPost = useAppStore((s) => s.upsertPost);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
-  const safeFeed = Array.isArray(feed) ? feed.filter(Boolean) : []
-
-  const currentPost = safeFeed.find((p) => p?.id === post)
+  const safeFeed = Array.isArray(feed) ? feed.filter(Boolean) : [];
+  const currentPost = safeFeed.find((p) => p?.id === post);
 
   useEffect(() => {
-    if (!post) return
+    if (!post) return;
 
-    let mounted = true
+    let mounted = true;
 
     const fetchFromApi = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/feed/${post}`
-        )
+          `${process.env.NEXT_PUBLIC_API_URL}/api/feed/${post}`,
+        );
 
-        const json = await res.json()
+        const json = await res.json();
 
-        if (!mounted) return
+        if (!mounted) return;
 
-        const postData = json?.data
+        const postData = json?.data;
 
         if (postData) {
-          setFeed([postData].filter(Boolean))
+          setFeed([postData].filter(Boolean));
         }
 
-        setLoading(false)
+        setLoading(false);
       } catch (err) {
-        console.log(err)
-        setLoading(false)
+        console.log(err);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchFromApi()
+    fetchFromApi();
 
     return () => {
-      mounted = false
-    }
-  }, [post, setFeed])
+      mounted = false;
+    };
+  }, [post, setFeed]);
 
   useEffect(() => {
-    if (!socket) return
+    if (!socket) return;
 
     const handlePostUpdate = (data: any) => {
-      if (!data?.id) return
+      if (!data?.id) return;
+      upsertPost(data);
+      setLoading(false);
+    };
 
-      setFeed([data].filter(Boolean))
-      setLoading(false)
-    }
+    const handlePostDelete = ({ postId }: any) => {
+      if (postId === post) setFeed([]);
+    };
 
-    const handlePostDelete = (data: any) => {
-      if (!data?.id) return
-      setFeed([])
-    }
+    const handlePostLiked = ({ postId, likes, likedByMe, userId }: any) => {
+      const currentUser = useAppStore.getState().user;
+      useAppStore.setState((state) => ({
+        feed: state.feed.map((p) =>
+          p.id === postId
+            ? {
+                ...p,
+                likes,
+                likedByMe:
+                  currentUser?.userId === userId ? likedByMe : p.likedByMe,
+              }
+            : p,
+        ),
+      }));
+    };
 
-    socket.on("post_updated", handlePostUpdate)
-    socket.on("post_liked", handlePostUpdate)
-    socket.on("post_created", handlePostUpdate)
-    socket.on("post_deleted", handlePostDelete)
+    const handlePostUpdated = ({ postId, comments }: any) => {
+      useAppStore.setState((state) => ({
+        feed: state.feed.map((p) => (p.id === postId ? { ...p, comments } : p)),
+      }));
+    };
+
+    socket.on("post_created", handlePostUpdate);
+    socket.on("post_removed", handlePostDelete);
+    socket.on("post_liked", handlePostLiked);
+    socket.on("post_updated", handlePostUpdated);
 
     return () => {
-      socket.off("post_updated", handlePostUpdate)
-      socket.off("post_liked", handlePostUpdate)
-      socket.off("post_created", handlePostUpdate)
-      socket.off("post_deleted", handlePostDelete)
-    }
-  }, [socket, setFeed])
+      socket.off("post_created", handlePostUpdate);
+      socket.off("post_removed", handlePostDelete);
+      socket.off("post_liked", handlePostLiked);
+      socket.off("post_updated", handlePostUpdated);
+    };
+  }, [socket, setFeed, upsertPost, post]);
 
   if (loading && !currentPost) {
     return (
@@ -88,7 +108,7 @@ const Page = () => {
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-fuchsia-500 border-t-transparent" />
         Loading chaos...
       </div>
-    )
+    );
   }
 
   if (!currentPost) {
@@ -96,7 +116,7 @@ const Page = () => {
       <div className="flex items-center justify-center h-[60vh] text-zinc-400">
         Post not found
       </div>
-    )
+    );
   }
 
   return (
@@ -110,14 +130,15 @@ const Page = () => {
           username={currentPost.user?.username}
           comments={currentPost.comments}
           likes={currentPost.likes}
+          likedByMe={currentPost.likedByMe}
         />
       </div>
 
       <div className="w-full h-130 md:h-200 lg:h-110 overflow-y-auto lg:w-1/2 md:pl-5">
-        <Comments />
+        <Comments postId={post} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

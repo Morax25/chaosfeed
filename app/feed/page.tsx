@@ -77,6 +77,7 @@ const Page = () => {
             username={item.user?.username}
             pfp={item.user?.pfp}
             createdAt={item.createdAt}
+            likedByMe={item.likedByMe}  
           />
         ))
       )}

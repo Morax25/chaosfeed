@@ -24,6 +24,7 @@ type Comment = {
   id: string
   postId: string
   text: string
+  createdAt: number
   user: User
 }
 
@@ -37,9 +38,12 @@ type State = {
   setUser: (u: User) => void
   setUserCount: (count: number) => void
   setFeed: (f: Post[]) => void
+  setComments: (c: Comment[]) => void
   addPost: (p: Post) => void
   upsertPost: (p: Post) => void
   addComment: (c: Comment) => void
+  updatePostCommentCount: (postId: string, count: number) => void
+  updatePostLikes: (postId: string, likes: number, likedByMe: boolean) => void
 }
 
 export const useAppStore = create<State>()(
@@ -54,6 +58,7 @@ export const useAppStore = create<State>()(
       setUser: (u) => set({ user: u }),
       setUserCount: (count) => set({ userCount: count }),
       setFeed: (f) => set({ feed: f }),
+      setComments: (c) => set({ comments: c }),
       addPost: (p) => {
         const state = get()
         const exists = state.feed.some((x) => x.id === p.id)
@@ -73,6 +78,18 @@ export const useAppStore = create<State>()(
       addComment: (c) =>
         set((state) => ({
           comments: [c, ...state.comments],
+        })),
+      updatePostCommentCount: (postId, count) =>
+        set((state) => ({
+          feed: state.feed.map((p) =>
+            p.id === postId ? { ...p, comments: count } : p
+          ),
+        })),
+      updatePostLikes: (postId, likes, likedByMe) =>
+        set((state) => ({
+          feed: state.feed.map((p) =>
+            p.id === postId ? { ...p, likes, likedByMe } : p
+          ),
         })),
     }),
     {

@@ -15,19 +15,20 @@ const Posts = ({
   id,
   createdAt,
   comments,
-  likes
+  likes,
+  likedByMe = false,
 }: {
   title: string;
   pfp: string;
   username: string;
   id: string;
   createdAt: any;
-  comments:number;
-  likes:number;
+  comments: number;
+  likes: number;
+  likedByMe?: boolean;
 }) => {
   const router = useRouter();
   const socket = useAppStore((s) => s.socket);
-
   const [timeLeft, setTimeLeft] = useState<number | null>(0);
 
   useEffect(() => {
@@ -38,7 +39,6 @@ const Posts = ({
     const interval = setInterval(() => {
       const elapsed = Date.now() - createdAt;
       const remaining = Math.max(0, Math.ceil((duration - elapsed) / 1000));
-
       setTimeLeft(remaining);
 
       if (remaining <= 0) {
@@ -49,6 +49,10 @@ const Posts = ({
 
     return () => clearInterval(interval);
   }, [id, createdAt, socket]);
+
+  const handleLike = () => {
+    socket?.emit("like_post", { postId: id });
+  };
 
   return (
     <Card className="text-white bg-gray-900/80 w-full h-max rounded-[15px]">
@@ -82,15 +86,26 @@ const Posts = ({
           <p>{title}</p>
 
           <div className="mt-3 border-t border-t-gray-400/30 flex items-center font-bold text-sm gap-4 pt-3">
-            <div className="flex hover:text-pink-600 transition cursor-pointer items-center gap-1">
-              <Heart size={20} strokeWidth={3} /> <p>{likes || 0}</p>
+            <div
+              onClick={handleLike}
+              className={`flex transition cursor-pointer items-center gap-1 ${
+                likedByMe ? "text-pink-500" : "hover:text-pink-600"
+              }`}
+            >
+              <Heart
+                size={20}
+                strokeWidth={3}
+                fill={likedByMe ? "currentColor" : "none"}
+              />
+              <p>{likes || 0}</p>
             </div>
 
             <div
               onClick={() => router.push(`/feed/${id}`)}
               className="flex items-center hover:text-pink-600 transition cursor-pointer gap-1"
             >
-              <MessageCircle size={18} strokeWidth={3} /> <p>{comments || 0}</p>
+              <MessageCircle size={18} strokeWidth={3} />
+              <p>{comments || 0}</p>
             </div>
           </div>
         </div>
