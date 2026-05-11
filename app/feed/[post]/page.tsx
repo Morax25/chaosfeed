@@ -26,8 +26,9 @@ const Page = () => {
 
     const fetchFromApi = async () => {
       try {
+        const userId = localStorage.getItem("userId");
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/feed/${post}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/feed/${post}${userId ? `?userId=${userId}` : ""}`,
         );
 
         const json = await res.json();
@@ -37,7 +38,7 @@ const Page = () => {
         const postData = json?.data;
 
         if (postData) {
-          setFeed([postData].filter(Boolean));
+          upsertPost(postData); // ← to this
         }
 
         setLoading(false);
@@ -69,6 +70,9 @@ const Page = () => {
 
     const handlePostLiked = ({ postId, likes, likedByMe, userId }: any) => {
       const currentUser = useAppStore.getState().user;
+       console.log("currentUser:", currentUser?.userId)
+  console.log("event userId:", userId)
+  console.log("match:", currentUser?.userId === userId)
       useAppStore.setState((state) => ({
         feed: state.feed.map((p) =>
           p.id === postId
