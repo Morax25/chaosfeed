@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { X } from "lucide-react"
+import * as React from "react";
+import { X } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -12,26 +12,23 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 
-import { useDrawer } from "@/store/drawerStore"
-import CreatePost from "./CreatePost"
-import Statics from "./Statics"
-import Comments from "./Comments"
+import { useDrawer } from "@/store/drawerStore";
+import CreatePost from "./CreatePost";
+import Statics from "./Statics";
+import Comments from "./Comments";
 
 export const AppDrawer = () => {
-  const open = useDrawer((s) => s.open)
-  const title = useDrawer((s) => s.title)
-  const description = useDrawer((s) => s.description)
-  const type = useDrawer((s) => s.type)
-  const props = useDrawer((s) => s.props)
-  const closeDrawer = useDrawer((s) => s.closeDrawer)
+  const open = useDrawer((s) => s.open);
+  const title = useDrawer((s) => s.title);
+  const description = useDrawer((s) => s.description);
+  const type = useDrawer((s) => s.type);
+  const props = useDrawer((s) => s.props);
+  const closeDrawer = useDrawer((s) => s.closeDrawer);
 
   return (
-    <Drawer
-      open={open}
-      onOpenChange={(v) => !v && closeDrawer()}
-    >
+    <Drawer open={open} onOpenChange={(v) => !v && closeDrawer()}>
       <DrawerContent className="w-full h-full bg-gray-900 border-none flex flex-col">
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
           <DrawerHeader className="p-0 space-y-0.5">
@@ -61,20 +58,14 @@ export const AppDrawer = () => {
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 py-4">
-          {type === "createPost" && (
-            <CreatePost {...props} />
-          )}
+          {type === "createPost" && <CreatePost {...props} />}
 
-          {type === "statics" && (
-            <Statics {...props} />
-          )}
-          {type === "comments" && (
-            <Comments {...props} />
-          )}
+          {type === "statics" && <Statics {...props} />}
+          {type === "comments" && <Comments postId={props?.postId} />}
         </div>
 
         <DrawerFooter />
       </DrawerContent>
     </Drawer>
-  )
-}
+  );
+};
