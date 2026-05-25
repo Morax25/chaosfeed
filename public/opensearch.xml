@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>ChaossFeed</ShortName>
+  <Description>Search anonymous posts on ChaossFeed real-time social feed</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+
+  <!-- Search query template -->
+  <Url type="text/html" method="get" template="https://chaosfeed.live/search?q={searchTerms}"/>
+
+  <!-- Suggest/autocomplete -->
+  <Url type="application/x-suggestions+json" method="get" template="https://chaosfeed.live/api/search/suggest?q={searchTerms}"/>
+
+  <!-- RSS feed of search results -->
+  <Url type="application/atom+xml" method="get" template="https://chaosfeed.live/feed/search?q={searchTerms}"/>
+
+  <!-- Icon for browser -->
+  <Image height="16" width="16" type="image/x-icon">https://chaosfeed.live/favicon.ico</Image>
+  <Image height="32" width="32" type="image/png">https://chaosfeed.live/favicon-32x32.png</Image>
+  <Image height="64" width="64" type="image/png">https://chaosfeed.live/favicon-64x64.png</Image>
+
+  <!-- Search suggestions provider -->
+  <SyndicationRight>open</SyndicationRight>
+
+  <!-- Desktop and mobile support -->
+  <Developer>ChaossFeed</Developer>
+  <Contact>support@chaosfeed.live</Contact>
+  <LongName>ChaossFeed - Anonymous Real-Time Social Feed</LongName>
+
+  <!-- Supported languages -->
+  <Language>en</Language>
+  <Language>pt-BR</Language>
+  <Language>es</Language>
+
+  <!-- Query attributes -->
+  <Query role="example" searchTerms="anonymous posts"/>
+  <Query role="example" searchTerms="trending now"/>
+  <Query role="example" searchTerms="viral discussions"/>
+
+  <!-- Additional metadata -->
+  <Attribution>
+    Search ChaossFeed - the real-time anonymous social feed platform
+  </Attribution>
+
+</OpenSearchDescription>
