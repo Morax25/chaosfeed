@@ -34,7 +34,6 @@ export const useSocketEvents = () => {
     };
 
     const handlePostLiked = ({ postId, likes, likedByMe, userId }: any) => {
-      console.log("post_liked event:", { postId, likes, likedByMe, userId })
       const currentUser = useAppStore.getState().user;
       useAppStore.setState((state) => ({
         feed: state.feed.map((p) =>

@@ -67,12 +67,8 @@ const Page = () => {
     const handlePostDelete = ({ postId }: any) => {
       if (postId === post) setFeed([]);
     };
-
     const handlePostLiked = ({ postId, likes, likedByMe, userId }: any) => {
       const currentUser = useAppStore.getState().user;
-       console.log("currentUser:", currentUser?.userId)
-  console.log("event userId:", userId)
-  console.log("match:", currentUser?.userId === userId)
       useAppStore.setState((state) => ({
         feed: state.feed.map((p) =>
           p.id === postId
