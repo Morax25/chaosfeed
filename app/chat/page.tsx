@@ -8,31 +8,31 @@ const rooms = [
   {
     id: "gaming",
     name: "Gaming",
-    online: 1234,
+    online: "2",
     desc: "Live gaming discussions",
   },
   {
     id: "coding",
     name: "Coding",
-    online: 532,
+    online: 10,
     desc: "React, Node, AI and architecture",
   },
   {
     id: "memes",
     name: "Memes",
-    online: 843,
+    online: 2,
     desc: "Internet chaos lives here",
   },
   {
     id: "music",
     name: "Music",
-    online: 291,
+    online: 1,
     desc: "Talk playlists and artists",
   },
   {
     id: "anime",
     name: "Anime",
-    online: 674,
+    online: 8,
     desc: "Shows, manga and theories",
   },
 ];
