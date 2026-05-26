@@ -1,36 +1,14 @@
 import type { MetadataRoute } from "next";
 
-export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: [
-      // Google
-      {
-        userAgent: "Googlebot",
-        allow: "/",
-      },
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://chaosfeed.live";
 
-      // Bing
-      {
-        userAgent: "Bingbot",
-        allow: "/",
-        crawlDelay: 1,
-      },
-
-      // All bots
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/admin", "/private"],
-      },
-
-      // Block specific crawlers
-      {
-        userAgent: ["MJ12bot", "AhrefsBot"],
-        disallow: "/",
-      },
-    ],
-
-    sitemap: "https://chaosfeed.live/sitemap.xml",
-    host: "https://chaosfeed.live",
-  };
+  return [
+    {
+      url: `${baseUrl}/feed`,
+      lastModified: new Date(),
+      changeFrequency: "hourly",
+      priority: 1,
+    },
+  ];
 }
