@@ -208,13 +208,6 @@ export const metadata: Metadata = {
         alt: "ChaossFeed — Anonymous chat & random stranger chat rooms. No login required.",
         type: "image/png",
       },
-      {
-        url: "/og-image-1080x1080.png",
-        width: 1080,
-        height: 1080,
-        alt: "ChaossFeed — Talk to strangers anonymously in real-time",
-        type: "image/png",
-      },
     ],
   },
 
