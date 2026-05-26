@@ -35,61 +35,117 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://chaosfeed.live"),
 
-  // Core SEO
   title: {
     default:
-      "ChaossFeed - Anonymous Real-Time Social Feed | Post Instantly & Stay Anonymous",
-    template: "%s | ChaossFeed - Anonymous Social Feed",
+      "ChaossFeed — Anonymous Chat & Random Chat Rooms | Talk to Strangers Instantly, No Login",
+    template: "%s | ChaossFeed — Anonymous Chat & Random Stranger Chat",
   },
 
   description:
-    "ChaossFeed - The ultimate anonymous real-time social feed platform. Post instantly without signup, stay completely anonymous, and watch your thoughts vanish after 90 seconds. No login required. Join thousands posting live.",
+    "ChaossFeed is a free anonymous chat app where you can talk to strangers instantly — no login, no signup, no account. Jump into random chat rooms, share anonymous confessions, or post to the live ephemeral feed. Every post disappears in 90 seconds. The Omegle alternative built for real-time anonymous connection.",
 
-  // Keywords for maximum search coverage
   keywords: [
-    // Primary keywords
-    "anonymous social feed",
+    // === HIGH VOLUME — random/stranger chat ===
+    "talk to strangers",
+    "chat with strangers",
+    "random chat",
+    "random chat online",
+    "chat with random people",
+    "talk to strangers online",
+    "stranger chat",
+    "random stranger chat",
+    "online chat no registration",
+    "free chat rooms no sign up",
+    "chat rooms no login",
+    "chat online free no registration",
+    "talk to random people online",
+    "meet strangers online",
+    "random people chat",
+
+    // === OMEGLE REPLACEMENT — very high volume since Omegle closed 2023 ===
+    "omegle alternative",
+    "omegle replacement",
+    "sites like omegle",
+    "omegle alternative 2026",
+    "new omegle",
+    "omegle chat",
+    "chatroulette alternative",
+    "ome tv alternative",
+    "emerald chat alternative",
+    "random video chat alternative",
+
+    // === ANONYMOUS CHAT — core identity ===
+    "anonymous chat",
+    "anonymous chat rooms",
+    "anonymous chat no login",
+    "anonymous chat no signup",
+    "anonymous messaging",
+    "anonymous online chat",
+    "free anonymous chat",
+    "anonymous chat app",
+    "anonymous chat website",
+    "completely anonymous chat",
+    "private anonymous chat",
+    "chat anonymously online",
+
+    // === RANDOM CHAT ROOMS ===
+    "random chat rooms",
+    "free random chat",
+    "online chat rooms",
+    "free chat rooms",
+    "chat rooms online",
+    "free online chat",
+    "online chat rooms no registration",
+    "free chat rooms no registration",
+    "chat room no sign up",
+    "instant chat rooms",
+
+    // === ANONYMOUS CONFESSIONS & POSTS ===
+    "anonymous confessions",
+    "anonymous confession app",
     "anonymous posting",
-    "real-time social feed",
-    "live social feed",
+    "anonymous social media",
+    "anonymous social network",
+    "post anonymously",
+    "confess anonymously",
+    "anonymous thoughts",
+    "share anonymously",
+    "anonymous venting",
+    "vent anonymously online",
+
+    // === EPHEMERAL / DISAPPEARING POSTS ===
     "ephemeral social media",
     "disappearing posts",
-    "anonymous chat",
+    "self-destructing messages",
+    "temporary posts",
+    "disappearing messages app",
+    "ephemeral messaging",
+    "ephemeral chat",
+    "self destructing posts",
 
-    // Secondary keywords
-    "no login social media",
-    "anonymous confessions",
-    "anonymous thoughts",
-    "anonymous discussion",
-    "temporary social media",
-    "self-destructing posts",
-    "instant posting",
-    "anonymous sharing",
-    "private social network",
-    "anonymous community",
+    // === NO LOGIN / NO SIGNUP POSITIONING ===
+    "no login chat",
+    "no sign up chat",
+    "no registration chat",
+    "chat without account",
+    "social media without account",
+    "no account required chat",
+    "chat instantly no registration",
 
-    // Long-tail keywords
-    "anonymous social media no signup",
-    "real-time anonymous chat",
-    "post anonymously online",
-    "ephemeral messaging app",
-    "disappearing messages social media",
-    "instant anonymous posting platform",
+    // === REAL-TIME SOCIAL FEED ===
+    "real-time social feed",
+    "live social feed",
+    "anonymous social feed",
+    "live feed app",
+    "real time chat app",
+    "live chat rooms",
+    "instant messaging no signup",
 
-    // Brand & viral keywords
+    // === BRAND ===
     "chaosfeed",
-    "chaos feed",
     "chaosfeed.live",
-    "viral social feed",
-    "trending anonymous posts",
-    "anonymous trending topics",
-
-    // Geographic & niche
-    "global anonymous chat",
-    "worldwide anonymous feed",
-    "international social network",
-    "brazil chat",
-    "latin america social media",
+    "chaos feed",
+    "chaossfeed",
   ],
 
   authors: [{ name: "ChaossFeed", url: "https://chaosfeed.live" }],
@@ -98,7 +154,6 @@ export const metadata: Metadata = {
   category: "Social Media",
   classification: "Social Networking Service",
 
-  // Canonical and alternates
   alternates: {
     canonical: "https://chaosfeed.live",
     languages: {
@@ -108,7 +163,6 @@ export const metadata: Metadata = {
     },
   },
 
-  // Icons and visuals
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
@@ -123,7 +177,6 @@ export const metadata: Metadata = {
     ],
   },
 
-  // Verification & Trust
   robots: {
     index: true,
     follow: true,
@@ -137,53 +190,44 @@ export const metadata: Metadata = {
     },
   },
 
-  // Open Graph for Facebook, LinkedIn, etc.
   openGraph: {
     type: "website",
     locale: "en_US",
     alternateLocale: ["pt_BR", "es_ES"],
     url: "https://chaosfeed.live",
     siteName: "ChaossFeed",
-    title: "ChaossFeed - Anonymous Real-Time Social Feed",
+    title:
+      "ChaossFeed — Anonymous Chat & Talk to Strangers | No Login, No Signup",
     description:
-      "Post instantly. Stay anonymous. Every post disappears after 90 seconds. Join the real-time anonymous revolution. No login. No account. Just pure, unfiltered thoughts.",
+      "Jump into anonymous chat rooms, talk to strangers instantly, or post to the live ephemeral feed. No login. No account. Every post disappears in 90 seconds. The free Omegle alternative for real, unfiltered connection.",
     images: [
       {
         url: "/og-image-1200x630.png",
         width: 1200,
         height: 630,
-        alt: "ChaossFeed — Anonymous real-time social feed where posts disappear",
+        alt: "ChaossFeed — Anonymous chat & random stranger chat rooms. No login required.",
         type: "image/png",
       },
       {
         url: "/og-image-1080x1080.png",
         width: 1080,
         height: 1080,
-        alt: "ChaossFeed - Post anonymously in real-time",
-        type: "image/png",
-      },
-      {
-        url: "/og-image-800x600.png",
-        width: 800,
-        height: 600,
-        alt: "Anonymous Social Feed - ChaossFeed",
+        alt: "ChaossFeed — Talk to strangers anonymously in real-time",
         type: "image/png",
       },
     ],
   },
 
-  // Twitter/X Card optimization
   twitter: {
     card: "summary_large_image",
     site: "@chaosfeed",
     creator: "@chaosfeed",
-    title: "ChaossFeed - Anonymous Real-Time Social Feed",
+    title: "ChaossFeed — Anonymous Chat & Talk to Strangers | No Login",
     description:
-      "🔥 Post instantly. Stay anonymous. Every post disappears after 90 seconds. No login. No account. Pure unfiltered thoughts. Join thousands now.",
+      "🔥 Free anonymous chat rooms. Talk to strangers instantly. No login, no signup. Posts vanish in 90s. The Omegle alternative you've been looking for.",
     images: ["/og-image-1200x630.png"],
   },
 
-  // Additional meta tags
   referrer: "strict-origin-when-cross-origin",
   formatDetection: {
     telephone: false,
@@ -197,16 +241,21 @@ export const metadata: Metadata = {
   },
 };
 
-// Comprehensive Structured Data for Google Rich Results
+// ── Structured Data ──────────────────────────────────────────────────────────
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
-    // WebApplication Schema
+    // WebApplication
     {
       "@type": "WebApplication",
       "@id": "https://chaosfeed.live/#webapp",
       name: "ChaossFeed",
-      alternateName: ["Chaos Feed", "chaosfeed.live", "ChaossFeed App"],
+      alternateName: [
+        "Chaos Feed",
+        "chaosfeed.live",
+        "ChaossFeed Anonymous Chat",
+        "ChaossFeed Random Chat",
+      ],
       url: "https://chaosfeed.live",
       image: {
         "@type": "ImageObject",
@@ -215,10 +264,10 @@ const structuredData = {
         height: 630,
       },
       applicationCategory: "SocialNetworkingApplication",
-      applicationSubCategory: "Anonymous Social Media",
+      applicationSubCategory: "Anonymous Chat & Random Stranger Chat",
       operatingSystem: ["Web", "Android", "iOS"],
       description:
-        "Anonymous real-time social feed where posts disappear automatically after 90 seconds. No login required, completely anonymous posting.",
+        "ChaossFeed is a free anonymous chat app where users talk to strangers in random chat rooms with no login or signup required. It also features a real-time ephemeral social feed where every post disappears after 90 seconds. The best free Omegle alternative for anonymous connection in 2026.",
       offers: {
         "@type": "Offer",
         price: "0",
@@ -226,16 +275,16 @@ const structuredData = {
         availability: "https://schema.org/InStock",
       },
       featureList: [
-        "Anonymous posting without registration",
-        "Real-time feed with live updates",
-        "Self-destructing posts (90 seconds)",
-        "No login or account required",
-        "End-to-end encryption",
-        "No data collection",
-        "Cross-platform support",
-        "Instant post publication",
-        "Global reach",
-        "Community moderation",
+        "Anonymous chat rooms — no login required",
+        "Talk to strangers instantly with random matching",
+        "Free random chat with people worldwide",
+        "Anonymous confessions and social feed",
+        "Ephemeral posts that disappear after 90 seconds",
+        "Auto-generated anonymous username and avatar",
+        "No account, email, or phone number needed",
+        "Real-time feed powered by Redis and Socket.IO",
+        "Post TTL extends with community engagement",
+        "Omegle alternative for text-based anonymous chat",
       ],
       aggregateRating: {
         "@type": "AggregateRating",
@@ -244,11 +293,6 @@ const structuredData = {
         bestRating: "5",
         worstRating: "1",
       },
-      downloadUrl: [
-        "https://chaosfeed.live",
-        "https://play.google.com/store/apps/details?id=com.chaosfeed",
-        "https://apps.apple.com/app/chaosfeed",
-      ],
       softwareVersion: "1.0",
       inLanguage: ["en", "pt-BR", "es"],
       author: {
@@ -261,12 +305,12 @@ const structuredData = {
       },
     },
 
-    // Organization Schema
+    // Organization
     {
       "@type": "Organization",
       "@id": "https://chaosfeed.live/#organization",
       name: "ChaossFeed",
-      alternateName: "Chaos Feed",
+      alternateName: ["Chaos Feed", "ChaossFeed Chat"],
       url: "https://chaosfeed.live",
       logo: {
         "@type": "ImageObject",
@@ -274,11 +318,11 @@ const structuredData = {
         width: 256,
         height: 256,
       },
-      description: "Anonymous real-time social feed platform",
+      description:
+        "Anonymous chat platform — talk to strangers in random chat rooms with no signup required.",
       sameAs: [
         "https://twitter.com/chaosfeed",
         "https://instagram.com/chaosfeed",
-        "https://facebook.com/chaosfeed",
       ],
       contactPoint: {
         "@type": "ContactPoint",
@@ -291,26 +335,16 @@ const structuredData = {
         addressCountry: "BR",
       },
       foundingDate: "2023",
-      knowsAbout: [
-        "Social Media",
-        "Anonymous Communication",
-        "Real-time Web Technology",
-        "Privacy & Data Protection",
-      ],
     },
 
-    // Website Schema
+    // Website
     {
       "@type": "WebSite",
       "@id": "https://chaosfeed.live/#website",
-      name: "ChaossFeed",
+      name: "ChaossFeed — Anonymous Chat & Random Chat Rooms",
       url: "https://chaosfeed.live",
-      image: {
-        "@type": "ImageObject",
-        url: "https://chaosfeed.live/og-image-1200x630.png",
-      },
       description:
-        "Anonymous real-time social feed where posts disappear after 90 seconds",
+        "Free anonymous chat app. Talk to strangers in random chat rooms with no login or signup. Anonymous social feed where posts disappear after 90 seconds. Best Omegle alternative 2026.",
       potentialAction: {
         "@type": "SearchAction",
         target: {
@@ -322,7 +356,7 @@ const structuredData = {
       inLanguage: ["en", "pt-BR", "es"],
     },
 
-    // FAQ Schema for Rich Results
+    // FAQ — targets high-volume "People Also Ask" queries
     {
       "@type": "FAQPage",
       mainEntity: [
@@ -331,23 +365,39 @@ const structuredData = {
           name: "What is ChaossFeed?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "ChaossFeed is an anonymous real-time social feed where you can post instantly without any login or account creation. Every post automatically disappears after 90 seconds.",
+            text: "ChaossFeed is a free anonymous chat app that lets you talk to strangers in random chat rooms with no login or signup required. It also features a live ephemeral social feed where posts automatically disappear after 90 seconds.",
           },
         },
         {
           "@type": "Question",
-          name: "Do I need to create an account?",
+          name: "Is ChaossFeed a good Omegle alternative?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "No! ChaossFeed requires zero sign-up. Start posting anonymously immediately without any registration or personal information.",
+            text: "Yes. ChaossFeed is a free Omegle alternative for anonymous text chat. Like Omegle, no account is needed — you are instantly connected to chat rooms and strangers. Unlike Omegle, ChaossFeed also has an ephemeral social feed and auto-generated anonymous profiles.",
           },
         },
         {
           "@type": "Question",
-          name: "How long do posts stay visible?",
+          name: "Do I need to create an account to use ChaossFeed?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "All posts on ChaossFeed are ephemeral and automatically disappear after 90 seconds. This ensures your thoughts remain truly temporary.",
+            text: "No login or signup is required. ChaossFeed automatically generates a random anonymous username and avatar for you when you join. Your identity is stored only in your browser's local storage.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How do the anonymous chat rooms work?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Click the Chat tab and instantly join any topic-based random chat room. You are identified only by your auto-generated anonymous username. Conversations are real-time and no history is stored — everything is temporary by design.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How long do posts last on ChaossFeed?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Posts on the ChaossFeed live feed start with a 90-second lifetime. Each comment from another user adds 10 seconds (up to 90 seconds maximum extension). If no one engages, the post disappears automatically — keeping the feed truly live.",
           },
         },
         {
@@ -355,21 +405,29 @@ const structuredData = {
           name: "Is ChaossFeed truly anonymous?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Yes. ChaossFeed is designed with privacy first. We don't collect personal data, track users, or store your IP information.",
+            text: "Yes. ChaossFeed does not require any personal information. No email, phone number, or real name is ever collected. Your auto-generated anonymous profile exists only in your browser's local storage and is never linked to your identity.",
           },
         },
         {
           "@type": "Question",
-          name: "Can I access ChaossFeed on mobile?",
+          name: "What makes ChaossFeed different from other anonymous chat apps?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "ChaossFeed works seamlessly on all devices including smartphones, tablets, and desktops. We offer native apps for iOS and Android.",
+            text: "ChaossFeed combines two experiences: anonymous random chat rooms (talk to strangers instantly) and an ephemeral anonymous social feed (posts that self-destruct). Both are fully real-time with zero data storage — no database, just Redis for temporary state.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Can I use ChaossFeed to share anonymous confessions?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. The ChaossFeed post feed is the perfect place to share anonymous thoughts, confessions, and opinions. Posts disappear after 90 seconds so nothing is permanent — making it safe to be completely honest.",
           },
         },
       ],
     },
 
-    // BreadcrumbList Schema
+    // BreadcrumbList
     {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -382,48 +440,42 @@ const structuredData = {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Feed",
-          item: "https://chaosfeed.live/feed",
+          name: "Anonymous Chat Rooms",
+          item: "https://chaosfeed.live/chat",
         },
         {
           "@type": "ListItem",
           position: 3,
-          name: "Create Post",
+          name: "Live Feed",
+          item: "https://chaosfeed.live/feed",
+        },
+        {
+          "@type": "ListItem",
+          position: 4,
+          name: "Post Anonymously",
           item: "https://chaosfeed.live/create",
         },
       ],
     },
 
-    // AggregateOffer for apps/downloads
+    // SoftwareApplication for app stores (helps Google surface it for app searches)
     {
-      "@type": "AggregateOffer",
-      priceCurrency: "USD",
-      lowPrice: "0",
-      highPrice: "0",
-      offerCount: "3",
-      offers: [
-        {
-          "@type": "Offer",
-          name: "Web App",
-          url: "https://chaosfeed.live",
-          price: "0",
-          priceCurrency: "USD",
-        },
-        {
-          "@type": "Offer",
-          name: "iOS App",
-          url: "https://apps.apple.com/app/chaosfeed",
-          price: "0",
-          priceCurrency: "USD",
-        },
-        {
-          "@type": "Offer",
-          name: "Android App",
-          url: "https://play.google.com/store/apps/details?id=com.chaosfeed",
-          price: "0",
-          priceCurrency: "USD",
-        },
-      ],
+      "@type": "SoftwareApplication",
+      name: "ChaossFeed — Anonymous Chat",
+      operatingSystem: "Web, iOS, Android",
+      applicationCategory: "CommunicationApplication",
+      description:
+        "Talk to strangers in free anonymous chat rooms. No login required. Random chat, anonymous confessions, and ephemeral posts — all in one app.",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        reviewCount: "2450",
+      },
     },
   ],
 };
@@ -446,7 +498,7 @@ export default function RootLayout({
       )}
     >
       <head>
-        {/* Structured Data - JSON-LD */}
+        {/* Structured Data — JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -454,7 +506,7 @@ export default function RootLayout({
           }}
         />
 
-        {/* Preconnect to critical third parties */}
+        {/* Preconnect to critical origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -462,12 +514,15 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
-        {/* DNS Prefetch for performance */}
+        {/* DNS prefetch for analytics */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+        {/* Crawler directives */}
         <meta name="bingbot" content="index,follow" />
         <meta name="googlebot-news" content="index,follow" />
-        {/* Additional meta tags for virality & SEO */}
+
+        {/* PWA / mobile */}
         <meta name="theme-color" content="#000000" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -477,18 +532,18 @@ export default function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="ChaossFeed" />
 
-        {/* Manifest for PWA */}
+        {/* PWA manifest */}
         <link rel="manifest" href="/manifest.json" />
 
-        {/* Preload critical images */}
+        {/* Preload hero OG image */}
         <link rel="preload" as="image" href="/og-image-1200x630.png" />
 
-        {/* Open search description */}
+        {/* OpenSearch */}
         <link
           rel="search"
           type="application/opensearchdescription+xml"
           href="/opensearch.xml"
-          title="ChaossFeed"
+          title="ChaossFeed Anonymous Chat"
         />
       </head>
 
