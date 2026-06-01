@@ -11,3 +11,18 @@ export const fetchPosts = async () => {
   const data = await res.json()
   return data.data
 }
+
+export const reportPost = async (postId: string, content: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_MODERATION_URL}/report-post`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postId, content }),
+    }
+  )
+
+  if (!res.ok) throw new Error("Failed to report post")
+
+  return res.json()
+}
