@@ -18,12 +18,10 @@ export const useSocketEvents = () => {
       upsertPost(post);
     };
 
-    const handlePostRemoved = ({ postId }: any) => {
-      useAppStore.setState((state) => ({
-        feed: state.feed.filter((p) => p.id !== postId),
-        comments: state.comments.filter((c) => c.postId !== postId),
-      }));
-    };
+const handlePostRemoved = async ({ postId }: any) => {
+  console.log("POST REMOVED", postId)
+  await useAppStore.getState().fetchFeed()
+}
 
     const handleCommentAdded = (comment: any) => {
       addComment(comment);
