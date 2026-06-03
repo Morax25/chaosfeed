@@ -39,6 +39,7 @@ const Posts = ({
 }) => {
   const router = useRouter();
   const socket = useAppStore((s) => s.socket);
+  const user = useAppStore((s)=>s.user)
   const [timeLeft, setTimeLeft] = useState<number | null>(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [reporting, setReporting] = useState(false);
@@ -78,8 +79,9 @@ const Posts = ({
   const handleReport = async () => {
     setReporting(true);
     setMenuOpen(false);
+    if(!user?.userId) return console.error("User not found")
     try {
-      const res = await reportPost(id, title);
+      const res = await reportPost(user?.userId, id, title);
       setReportMessage(res.message);
     } catch {
       setReportMessage("Something went wrong. Please try again.");

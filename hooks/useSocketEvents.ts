@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useAppStore } from "@/store/useAppStore";
+import { useDrawer } from "@/store/drawerStore";
 
 export const useSocketEvents = () => {
   const socket = useAppStore((s) => s.socket);
@@ -18,10 +19,36 @@ export const useSocketEvents = () => {
       upsertPost(post);
     };
 
-const handlePostRemoved = async ({ postId }: any) => {
-  console.log("POST REMOVED", postId)
-  await useAppStore.getState().fetchFeed()
-}
+    const handlePostRemoved = async ({ postId }: { postId: string }) => {
+      console.log("POST REMOVED", postId);
+      await useAppStore.getState().fetchFeed();
+    };
+
+    const handleModerationNotification = ({
+      variant,
+      category,
+      reasoning,
+    }: {
+      variant: "post_removed" | "report_resolved";
+      category: string;
+      reasoning: string;
+    }) => {
+      const openDrawer = useDrawer.getState().openDrawer;
+
+      if (variant === "post_removed") {
+        openDrawer({
+          type: "notification",
+          title: "Post Removed",
+          props: { variant, category, reasoning },
+        });
+      } else if (variant === "report_resolved") {
+        openDrawer({
+          type: "notification",
+          title: "Report Reviewed",
+          props: { variant, category, reasoning },
+        });
+      }
+    };
 
     const handleCommentAdded = (comment: any) => {
       addComment(comment);
@@ -42,7 +69,7 @@ const handlePostRemoved = async ({ postId }: any) => {
                 likedByMe:
                   currentUser?.userId === userId ? likedByMe : p.likedByMe,
               }
-            : p,
+            : p
         ),
       }));
     };
@@ -57,6 +84,7 @@ const handlePostRemoved = async ({ postId }: any) => {
 
     socket.on("post_created", handlePostCreated);
     socket.on("post_removed", handlePostRemoved);
+    socket.on("moderation_notification", handleModerationNotification);
     socket.on("comment_added", handleCommentAdded);
     socket.on("comments_loaded", handleCommentsLoaded);
     socket.on("post_liked", handlePostLiked);
@@ -66,6 +94,7 @@ const handlePostRemoved = async ({ postId }: any) => {
     return () => {
       socket.off("post_created", handlePostCreated);
       socket.off("post_removed", handlePostRemoved);
+      socket.off("moderation_notification", handleModerationNotification);
       socket.off("comment_added", handleCommentAdded);
       socket.off("comments_loaded", handleCommentsLoaded);
       socket.off("post_liked", handlePostLiked);

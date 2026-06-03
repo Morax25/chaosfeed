@@ -18,6 +18,8 @@ import { useDrawer } from "@/store/drawerStore";
 import CreatePost from "./CreatePost";
 import Statics from "./Statics";
 import Comments from "./Comments";
+import PostRemovedModal from "./PostRemovedModal";
+import ReportResolvedModal from "./ReportResolvedModal";
 
 export const AppDrawer = () => {
   const open = useDrawer((s) => s.open);
@@ -59,9 +61,21 @@ export const AppDrawer = () => {
 
         <div className="flex-1 overflow-y-auto px-4 py-4">
           {type === "createPost" && <CreatePost {...props} />}
-
           {type === "statics" && <Statics {...props} />}
           {type === "comments" && <Comments postId={props?.postId} />}
+
+          {type === "notification" && props.variant === "post_removed" && (
+            <PostRemovedModal
+              category={props.category}
+              reasoning={props.reasoning}
+            />
+          )}
+          {type === "notification" && props.variant === "report_resolved" && (
+            <ReportResolvedModal
+              category={props.category}
+              reasoning={props.reasoning}
+            />
+          )}
         </div>
 
         <DrawerFooter />
