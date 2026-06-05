@@ -20,6 +20,7 @@ import Statics from "./Statics";
 import Comments from "./Comments";
 import PostRemovedModal from "./PostRemovedModal";
 import ReportResolvedModal from "./ReportResolvedModal";
+import PostExpiredModal from "./PostExpiredModal";
 
 export const AppDrawer = () => {
   const open = useDrawer((s) => s.open);
@@ -74,6 +75,13 @@ export const AppDrawer = () => {
             <ReportResolvedModal
               category={props.category}
               reasoning={props.reasoning}
+            />
+          )}
+          {type === "postExpired" && (
+            <PostExpiredModal
+              duration={props.duration}
+              comments={props.comments}
+              likes={props.likes}
             />
           )}
         </div>

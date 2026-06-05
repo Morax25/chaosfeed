@@ -18,10 +18,7 @@ const Page = () => {
       try {
         setLoading(true)
         const posts = await fetchPosts()
-
-        if (mounted) {
-          setFeed(posts || [])
-        }
+        if (mounted) setFeed(posts || [])
       } catch (err) {
         console.error("Failed to load feed:", err)
         if (mounted) setFeed([])
@@ -32,9 +29,7 @@ const Page = () => {
 
     load()
 
-    return () => {
-      mounted = false
-    }
+    return () => { mounted = false }
   }, [setFeed])
 
   if (loading) {
@@ -69,15 +64,16 @@ const Page = () => {
       ) : (
         feed.map((item) => (
           <Posts
-            comments={item.comments}
-            likes={item.likes}
-            id={item.id}
             key={item.id}
+            id={item.id}
             title={item.content}
             username={item.user?.username}
             pfp={item.user?.pfp}
             createdAt={item.createdAt}
-            likedByMe={item.likedByMe}  
+            expiresAt={item.expiresAt}
+            comments={item.comments}
+            likes={item.likes}
+            likedByMe={item.likedByMe}
           />
         ))
       )}

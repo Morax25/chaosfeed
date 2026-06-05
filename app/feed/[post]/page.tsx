@@ -32,14 +32,10 @@ const Page = () => {
         );
 
         const json = await res.json();
-
         if (!mounted) return;
 
         const postData = json?.data;
-
-        if (postData) {
-          upsertPost(postData); // ← to this
-        }
+        if (postData) upsertPost(postData);
 
         setLoading(false);
       } catch (err) {
@@ -50,9 +46,7 @@ const Page = () => {
 
     fetchFromApi();
 
-    return () => {
-      mounted = false;
-    };
+    return () => { mounted = false };
   }, [post, setFeed]);
 
   useEffect(() => {
@@ -67,6 +61,7 @@ const Page = () => {
     const handlePostDelete = ({ postId }: any) => {
       if (postId === post) setFeed([]);
     };
+
     const handlePostLiked = ({ postId, likes, likedByMe, userId }: any) => {
       const currentUser = useAppStore.getState().user;
       useAppStore.setState((state) => ({
@@ -83,9 +78,13 @@ const Page = () => {
       }));
     };
 
-    const handlePostUpdated = ({ postId, comments }: any) => {
+    const handlePostUpdated = ({ postId, comments, expiresAt }: any) => {
       useAppStore.setState((state) => ({
-        feed: state.feed.map((p) => (p.id === postId ? { ...p, comments } : p)),
+        feed: state.feed.map((p) =>
+          p.id === postId
+            ? { ...p, comments, ...(expiresAt && { expiresAt }) }
+            : p
+        ),
       }));
     };
 
@@ -125,6 +124,7 @@ const Page = () => {
         <Posts
           id={currentPost.id}
           createdAt={currentPost.createdAt}
+          expiresAt={currentPost.expiresAt}
           title={currentPost.content}
           pfp={currentPost.user?.pfp}
           username={currentPost.user?.username}

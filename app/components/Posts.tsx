@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import {
@@ -24,6 +23,7 @@ const Posts = ({
   username,
   id,
   createdAt,
+  expiresAt,
   comments,
   likes,
   likedByMe = false,
@@ -33,35 +33,44 @@ const Posts = ({
   username: string;
   id: string;
   createdAt: any;
+  expiresAt?: number;
   comments: number;
   likes: number;
   likedByMe?: boolean;
 }) => {
   const router = useRouter();
   const socket = useAppStore((s) => s.socket);
-  const user = useAppStore((s)=>s.user)
-  const [timeLeft, setTimeLeft] = useState<number | null>(0);
+  const user = useAppStore((s) => s.user);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [extended, setExtended] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [reporting, setReporting] = useState(false);
   const [reportMessage, setReportMessage] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const prevExpiresAt = useRef<number | undefined>(expiresAt);
 
   useEffect(() => {
-    if (!id || !createdAt) return;
-    const duration = 90 * 1000;
+    if (!id || !expiresAt) return;
+
+    if (prevExpiresAt.current && expiresAt > prevExpiresAt.current) {
+      setExtended(true);
+      setTimeout(() => setExtended(false), 500);
+    }
+
+    prevExpiresAt.current = expiresAt;
+
     const interval = setInterval(() => {
-      const elapsed = Date.now() - createdAt;
-      const remaining = Math.max(0, Math.ceil((duration - elapsed) / 1000));
+      const remaining = Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000));
       setTimeLeft(remaining);
       if (remaining <= 0) {
         clearInterval(interval);
         socket?.emit("post_expired", { postId: id });
       }
     }, 1000);
-    return () => clearInterval(interval);
-  }, [id, createdAt, socket]);
 
-  // Close menu when clicking outside
+    return () => clearInterval(interval);
+  }, [id, expiresAt, socket]);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -79,7 +88,7 @@ const Posts = ({
   const handleReport = async () => {
     setReporting(true);
     setMenuOpen(false);
-    if(!user?.userId) return console.error("User not found")
+    if (!user?.userId) return console.error("User not found");
     try {
       const res = await reportPost(user?.userId, id, title);
       setReportMessage(res.message);
@@ -91,8 +100,10 @@ const Posts = ({
     }
   };
 
+  const isUrgent = timeLeft !== null && timeLeft <= 10;
+
   return (
-    <Card className="text-white bg-gray-900/80 w-full h-max rounded-[15px]">
+    <Card className="text-white bg-gray-900/80 w-full h-max rounded-[15px] overflow-hidden">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex justify-center items-center gap-2">
@@ -111,12 +122,54 @@ const Posts = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <Badge className="flex items-center gap-1 bg-green-500 text-white">
-              <Clock size={18} />
-              <span>{timeLeft}s</span>
-            </Badge>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "4px 10px",
+                borderRadius: "999px",
+                fontSize: "13px",
+                fontWeight: 700,
+                transition: "all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                background: extended
+                  ? "rgba(34,197,94,0.15)"
+                  : isUrgent
+                  ? "rgba(239,68,68,0.15)"
+                  : "rgba(255,255,255,0.06)",
+                border: extended
+                  ? "1px solid rgba(34,197,94,0.5)"
+                  : isUrgent
+                  ? "1px solid rgba(239,68,68,0.5)"
+                  : "1px solid rgba(255,255,255,0.1)",
+                color: extended ? "#4ade80" : isUrgent ? "#f87171" : "#d4d4d8",
+                boxShadow: extended
+                  ? "0 0 16px rgba(34,197,94,0.4)"
+                  : isUrgent
+                  ? "0 0 12px rgba(239,68,68,0.3)"
+                  : "none",
+                transform: extended ? "scale(1.1)" : "scale(1)",
+              }}
+            >
+              <Clock
+                size={14}
+                style={{
+                  transition: "transform 0.5s ease",
+                  transform: extended ? "rotate(360deg)" : "rotate(0deg)",
+                }}
+              />
+              <span
+                style={{
+                  transition: "all 0.3s ease",
+                  minWidth: "36px",
+                  textAlign: "center",
+                  letterSpacing: extended ? "0.5px" : "0",
+                }}
+              >
+                {extended ? "+10s" : `${timeLeft ?? "..."}s`}
+              </span>
+            </div>
 
-            {/* 3 dots menu */}
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setMenuOpen((prev) => !prev)}
@@ -168,7 +221,6 @@ const Posts = ({
               <p>{comments || 0}</p>
             </div>
 
-            {/* inline loading / success feedback */}
             {reporting && (
               <div className="ml-auto flex items-center gap-1.5 text-xs text-gray-400">
                 <Loader2 size={13} className="animate-spin" />
