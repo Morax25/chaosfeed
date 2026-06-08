@@ -47,6 +47,7 @@ type State = {
 
   addPost: (p: Post) => void
   upsertPost: (p: Post) => void
+  removePost: (postId: string) => void
   addComment: (c: Comment) => void
 
   updatePostCommentCount: (postId: string, count: number, expiresAt?: number) => void
@@ -95,6 +96,11 @@ export const useAppStore = create<State>()(
           return { feed: [p, ...state.feed] }
         }),
 
+      removePost: (postId) =>
+        set((state) => ({
+          feed: state.feed.filter((p) => p.id !== postId),
+        })),
+
       addComment: (c) =>
         set((state) => ({
           comments: [c, ...state.comments],
@@ -121,6 +127,11 @@ export const useAppStore = create<State>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
+      }),
+      // On rehydration, only restore user — never restore live state
+      merge: (persistedState: any, currentState) => ({
+        ...currentState,
+        user: persistedState?.user ?? null,
       }),
     }
   )

@@ -10,6 +10,5 @@ type Props = {
 export const RealtimeProvider = ({ children }: Props) => {
   useSocketInit()
   useSocketEvents()
-
   return <>{children}</>
 }

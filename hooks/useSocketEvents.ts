@@ -8,6 +8,7 @@ import { useSounds } from "@/hooks/useSounds";
 export const useSocketEvents = () => {
   const socket = useAppStore((s) => s.socket);
   const upsertPost = useAppStore((s) => s.upsertPost);
+  const removePost = useAppStore((s) => s.removePost);
   const setUserCount = useAppStore((s) => s.setUserCount);
   const setComments = useAppStore((s) => s.setComments);
   const addComment = useAppStore((s) => s.addComment);
@@ -28,27 +29,21 @@ export const useSocketEvents = () => {
       playPostAdd();
     };
 
-    const handlePostRemoved = async ({
+    const handlePostRemoved = ({
       postId,
       stats,
     }: {
       postId: string;
       stats: any;
     }) => {
-      console.log("post_removed received:", { postId, stats });
-
       const feed = useAppStore.getState().feed;
       const user = useAppStore.getState().user;
-
       const post = feed.find((p) => p.id === postId);
-
-      console.log("post found:", post);
-      console.log("user:", user);
-      console.log("match:", post?.user?.userId === user?.userId);
 
       playPostRemove();
 
-      await useAppStore.getState().fetchFeed();
+      // Remove only this post from the local feed — no refetch
+      removePost(postId);
 
       if (post?.user?.userId === user?.userId && stats) {
         useDrawer.getState().openDrawer({
@@ -168,6 +163,7 @@ export const useSocketEvents = () => {
   }, [
     socket,
     upsertPost,
+    removePost,
     setUserCount,
     setComments,
     addComment,
