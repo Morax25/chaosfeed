@@ -1,35 +1,54 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Trash2, AlertTriangle, ShieldAlert } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-
-const initialReports = [
-  {
-    reporter: "f5b191a9-1b6e-433e-a368-57ca82ed0564",
-    postId: "1b206899-7b84-4822-bb64-c40122f10aee",
-    content: "adarsh",
-    category: "unknown",
-    reasoning: "Gemini API unavailable — flagged for manual review.",
-    timestamp: "2 mins ago",
-  },
-  {
-    reporter: "f5b191a9-1b6e-433e-a368-57ca82ed0564",
-    postId: "cd53c79d-bc91-4ec7-a7f1-fd95f79b702c",
-    content: "dawd",
-    category: "unknown",
-    reasoning: "Gemini API unavailable — flagged for manual review.",
-    timestamp: "5 mins ago",
-  },
-]
+import { getModerationQueue, deleteModerationPost } from "@/actions/posts"
 
 export default function ModerationPage() {
-  const [reports, setReports] = useState(initialReports)
+  const [reports, setReports] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [deleting, setDeleting] = useState<string | null>(null)
 
-  const removePost = (postId: string) => {
-    setReports((prev) => prev.filter((report) => report.postId !== postId))
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getModerationQueue()
+        setReports(response)
+      } catch (error) {
+        console.error("Failed to fetch moderation queue:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  const handleDelete = async (postId: string) => {
+    try {
+      setDeleting(postId)
+      await deleteModerationPost(postId)
+      // Remove from local state immediately
+      setReports((prev) => prev.filter((r) => r.postId !== postId))
+    } catch (error) {
+      console.error("Failed to delete post:", error)
+    } finally {
+      setDeleting(null)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 rounded-full border-2 border-red-500/30 border-t-red-500 animate-spin" />
+          <p className="text-zinc-500 text-xs tracking-wide">loading queue</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -88,18 +107,26 @@ export default function ModerationPage() {
                       </div>
 
                       <p className="text-xs text-zinc-500">
-                        Reported {report.timestamp}
+                        Reported{" "}
+                        {new Date(report.timestamp * 1000).toLocaleString([], {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </p>
                     </div>
 
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => removePost(report.postId)}
+                      disabled={deleting === report.postId}
+                      onClick={() => handleDelete(report.postId)}
                       className="gap-2"
                     >
                       <Trash2 className="h-4 w-4" />
-                      Remove
+                      {deleting === report.postId ? "Removing..." : "Remove"}
                     </Button>
                   </div>
 
@@ -129,10 +156,7 @@ export default function ModerationPage() {
                     <p className="mb-1 text-xs text-zinc-500">
                       Moderation Reason
                     </p>
-
-                    <p className="text-sm text-zinc-300">
-                      {report.reasoning}
-                    </p>
+                    <p className="text-sm text-zinc-300">{report.reasoning}</p>
                   </div>
                 </CardContent>
               </Card>
