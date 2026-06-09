@@ -1,6 +1,6 @@
 "use client";
 
-import { SendHorizonal, Users, ArrowLeft } from "lucide-react";
+import { SendHorizonal, ArrowLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useAppStore } from "@/store/useAppStore";
 import { useRouter } from "next/navigation";
@@ -39,7 +39,9 @@ const ChatRoom = ({ roomId }: Props) => {
     const loadMessages = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SOCKET_URL}/api/chatroom/${roomId}`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SOCKET_URL}/api/chatroom/${roomId}`
+        );
 
         if (res.status === 404) {
           router.push("/chat");
@@ -103,16 +105,45 @@ const ChatRoom = ({ roomId }: Props) => {
     });
 
     socket.on("room_deleted", ({ roomId: deletedId }: { roomId: string }) => {
-      if (deletedId === roomId) router.push("/chat");
+      if (deletedId === roomId) {
+        router.push("/chat");
+      }
     });
 
     return () => {
-      socket.emit("leave-room", { roomId });
+      // Only remove listeners here, leave-room is handled explicitly
       socket.off("receive-message");
       socket.off("user-count");
       socket.off("room_deleted");
     };
   }, [socket, roomId, user]);
+
+  // Explicit leave handler — called on back button and unmount
+  const handleLeave = () => {
+    if (socket) {
+      socket.emit("leave-room", { roomId });
+    }
+    router.push("/chat");
+  };
+
+  // Catch browser back / tab close / refresh
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (socket) {
+        socket.emit("leave-room", { roomId });
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      // Emit leave when component unmounts (route change, etc.)
+      if (socket) {
+        socket.emit("leave-room", { roomId });
+      }
+    };
+  }, [socket, roomId]);
 
   const sendMessage = () => {
     if (!message.trim() || !socket || !user) return;
@@ -140,16 +171,14 @@ const ChatRoom = ({ roomId }: Props) => {
 
   return (
     <div className="h-screen w-full bg-[#030305] text-white flex flex-col relative overflow-hidden">
-
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(168,85,247,0.1),transparent_60%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_rgba(236,72,153,0.07),transparent_60%)]" />
 
       <div className="relative z-10 border-b border-white/[0.06] bg-black/20 backdrop-blur-2xl">
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-
           <div className="flex items-center gap-3 min-w-0">
             <button
-              onClick={() => router.push("/chat")}
+              onClick={handleLeave}
               className="p-1.5 rounded-lg text-white/30 hover:text-white/70 hover:bg-white/5 transition flex-shrink-0"
             >
               <ArrowLeft size={16} />
@@ -158,10 +187,14 @@ const ChatRoom = ({ roomId }: Props) => {
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className="text-xs text-purple-400/70">#</span>
-                <span className="text-sm font-semibold truncate">{room.name}</span>
+                <span className="text-sm font-semibold truncate">
+                  {room.name}
+                </span>
               </div>
               {room.description && (
-                <p className="text-[11px] text-white/30 truncate">{room.description}</p>
+                <p className="text-[11px] text-white/30 truncate">
+                  {room.description}
+                </p>
               )}
             </div>
           </div>
@@ -169,16 +202,15 @@ const ChatRoom = ({ roomId }: Props) => {
           <div className="flex items-center gap-1.5 flex-shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.8)]" />
             <span className="text-xs text-white/40">
-              <span className="text-white/60 font-medium">{onlineUsers}</span> online
+              <span className="text-white/60 font-medium">{onlineUsers}</span>{" "}
+              online
             </span>
           </div>
-
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto relative z-10 scrollbar-none">
         <div className="max-w-3xl mx-auto px-4 py-6 flex flex-col gap-1">
-
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 gap-2">
               <p className="text-white/20 text-sm">no messages yet</p>
@@ -194,8 +226,9 @@ const ChatRoom = ({ roomId }: Props) => {
                   key={msg.id}
                   className={`flex ${msg.own ? "justify-end" : "justify-start"} ${isGrouped ? "mt-0.5" : "mt-4"}`}
                 >
-                  <div className={`flex items-end gap-2 max-w-[75%] ${msg.own ? "flex-row-reverse" : ""}`}>
-
+                  <div
+                    className={`flex items-end gap-2 max-w-[75%] ${msg.own ? "flex-row-reverse" : ""}`}
+                  >
                     {!isGrouped ? (
                       <img
                         src={msg.pfp}
@@ -206,17 +239,22 @@ const ChatRoom = ({ roomId }: Props) => {
                       <div className="w-7 flex-shrink-0" />
                     )}
 
-                    <div className={`flex flex-col gap-0.5 ${msg.own ? "items-end" : "items-start"}`}>
-
+                    <div
+                      className={`flex flex-col gap-0.5 ${msg.own ? "items-end" : "items-start"}`}
+                    >
                       {!isGrouped && (
-                        <span className={`text-[11px] text-white/30 px-1 ${msg.own ? "text-right" : ""}`}>
+                        <span
+                          className={`text-[11px] text-white/30 px-1 ${msg.own ? "text-right" : ""}`}
+                        >
                           {msg.own ? "you" : msg.username}
                         </span>
                       )}
 
                       <div className="flex items-end gap-1.5">
                         {msg.own && (
-                          <span className="text-[10px] text-white/20 mb-0.5">{msg.time}</span>
+                          <span className="text-[10px] text-white/20 mb-0.5">
+                            {msg.time}
+                          </span>
                         )}
 
                         <div
@@ -230,17 +268,17 @@ const ChatRoom = ({ roomId }: Props) => {
                         </div>
 
                         {!msg.own && (
-                          <span className="text-[10px] text-white/20 mb-0.5">{msg.time}</span>
+                          <span className="text-[10px] text-white/20 mb-0.5">
+                            {msg.time}
+                          </span>
                         )}
                       </div>
-
                     </div>
                   </div>
                 </div>
               );
             })
           )}
-
           <div ref={bottomRef} />
         </div>
       </div>
@@ -248,7 +286,6 @@ const ChatRoom = ({ roomId }: Props) => {
       <div className="relative z-10 px-4 py-3 bg-black/10 backdrop-blur-xl border-t border-white/[0.04]">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center gap-2 px-2 py-2 rounded-2xl bg-white/[0.03] border border-white/[0.07]">
-
             <input
               value={message}
               onChange={(e) => setMessage(e.target.value)}
@@ -269,11 +306,9 @@ const ChatRoom = ({ roomId }: Props) => {
             >
               <SendHorizonal size={15} />
             </button>
-
           </div>
         </div>
       </div>
-
     </div>
   );
 };

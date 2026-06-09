@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
 const MODERATION_URL = process.env.NEXT_PUBLIC_MODERATION_URL;
