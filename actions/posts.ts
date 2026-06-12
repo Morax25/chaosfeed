@@ -36,7 +36,7 @@ export const fetchPost = async (id: string, userId?: string) => {
 export const reportPost = async (
   reporter: string,
   postId: string,
-  content: string
+  content: string,
 ) => {
   const res = await fetch(`${MODERATION_URL}/report-post`, {
     method: "POST",
@@ -58,28 +58,20 @@ export const reportPost = async (
 };
 
 export const getModerationQueue = async () => {
-  const res = await fetch(
-    `${SOCKET_URL}/api/feed/moderation/queue`,
-    {
-      cache: "no-store",
-    }
-  );
-
+  const res = await fetch(`${SOCKET_URL}/api/feed/moderation/queue`, {
+    cache: "no-store",
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch moderation queue");
   }
-
   const data = await res.json();
   return data.data;
 };
 
 export const deleteModerationPost = async (postId: string) => {
-  const res = await fetch(
-    `${SOCKET_URL}/api/feed/moderation/queue/${postId}`,
-    {
-      method: "DELETE",
-    }
-  );
+  const res = await fetch(`${SOCKET_URL}/api/feed/moderation/queue/${postId}`, {
+    method: "DELETE",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to delete post");

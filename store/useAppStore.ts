@@ -128,7 +128,6 @@ export const useAppStore = create<State>()(
       partialize: (state) => ({
         user: state.user,
       }),
-      // On rehydration, only restore user — never restore live state
       merge: (persistedState: any, currentState) => ({
         ...currentState,
         user: persistedState?.user ?? null,
