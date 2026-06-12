@@ -44,7 +44,6 @@ export const useSocketEvents = () => {
 
       // Remove only this post from the local feed — no refetch
       removePost(postId);
-
       if (post?.user?.userId === user?.userId && stats) {
         useDrawer.getState().openDrawer({
           type: "postExpired",

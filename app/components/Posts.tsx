@@ -108,8 +108,8 @@ const Posts = ({
   const timerPillVariant = extended
     ? "bg-green-500/15 border border-green-500/50 text-green-400 shadow-[0_0_16px_rgba(34,197,94,0.4)] scale-110"
     : isUrgent
-    ? "bg-red-500/15 border border-red-500/50 text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.3)] animate-pulse"
-    : "bg-white/[0.06] border border-white/10 text-zinc-400";
+      ? "bg-red-500/15 border border-red-500/50 text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.3)] animate-pulse"
+      : "bg-white/[0.06] border border-white/10 text-zinc-400";
 
   return (
     <Card className="text-white bg-gray-900/80 w-full h-max rounded-[15px] overflow-hidden border-white/10">
@@ -192,7 +192,9 @@ const Posts = ({
               <div
                 onClick={handleLike}
                 className={`flex items-center gap-1.5 text-sm font-bold transition-all duration-200 cursor-pointer group ${
-                  likedByMe ? "text-pink-500" : "text-zinc-400 hover:text-pink-500"
+                  likedByMe
+                    ? "text-pink-500"
+                    : "text-zinc-400 hover:text-pink-500"
                 }`}
               >
                 <Heart
@@ -200,22 +202,15 @@ const Posts = ({
                   strokeWidth={2.5}
                   fill={likedByMe ? "currentColor" : "none"}
                 />
-                <span>
-                  {likes || 0}
-                </span>
+                <span>{likes || 0}</span>
               </div>
 
               <div
                 onClick={() => router.push(`/feed/${id}`)}
                 className="flex items-center gap-1.5 text-sm font-bold text-zinc-400 hover:text-pink-500 transition-all duration-200 cursor-pointer group"
               >
-                <MessageCircle
-                  size={18}
-                  strokeWidth={2.5}
-                />
-                <span>
-                  {comments || 0}
-                </span>
+                <MessageCircle size={18} strokeWidth={2.5} />
+                <span>{comments || 0}</span>
               </div>
             </div>
 
