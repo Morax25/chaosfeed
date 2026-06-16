@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useAppStore } from "@/store/useAppStore";
 import { useDrawer } from "@/store/drawerStore";
 import { useSounds } from "@/hooks/useSounds";
@@ -14,12 +15,10 @@ export const useSocketEvents = () => {
   const addComment = useAppStore((s) => s.addComment);
   const updatePostCommentCount = useAppStore((s) => s.updatePostCommentCount);
 
-  const {
-    playPostAdd,
-    playPostRemove,
-    playComment,
-    playReported,
-  } = useSounds();
+  const pathname = usePathname();
+
+  const { playPostAdd, playPostRemove, playComment, playReported } =
+    useSounds();
 
   useEffect(() => {
     if (!socket) return;
@@ -42,7 +41,6 @@ export const useSocketEvents = () => {
 
       playPostRemove();
 
-      // Remove only this post from the local feed — no refetch
       removePost(postId);
       if (post?.user?.userId === user?.userId && stats) {
         useDrawer.getState().openDrawer({
@@ -97,19 +95,25 @@ export const useSocketEvents = () => {
 
     const handleCommentAdded = (comment: any) => {
       addComment(comment);
-      playComment();
+
+      const currentUserId = useAppStore.getState().user?.userId;
+      const feed = useAppStore.getState().feed;
+      const postId = comment?.postId;
+      const isOnPostPage = pathname === `/feed/${postId}`;
+      const isPostOwner =
+        feed.find((p) => p.id === postId)?.user?.userId === currentUserId;
+      const isCommenter = comment?.user?.userId === currentUserId;
+
+      if (isOnPostPage || isPostOwner || isCommenter) {
+        playComment();
+      }
     };
 
     const handleCommentsLoaded = (comments: any[]) => {
       setComments(comments);
     };
 
-    const handlePostLiked = ({
-      postId,
-      likes,
-      likedByMe,
-      userId,
-    }: any) => {
+    const handlePostLiked = ({ postId, likes, likedByMe, userId }: any) => {
       const currentUser = useAppStore.getState().user;
 
       useAppStore.setState((state) => ({
@@ -119,20 +123,14 @@ export const useSocketEvents = () => {
                 ...p,
                 likes,
                 likedByMe:
-                  currentUser?.userId === userId
-                    ? likedByMe
-                    : p.likedByMe,
+                  currentUser?.userId === userId ? likedByMe : p.likedByMe,
               }
-            : p
+            : p,
         ),
       }));
     };
 
-    const handlePostUpdated = ({
-      postId,
-      comments,
-      expiresAt,
-    }: any) => {
+    const handlePostUpdated = ({ postId, comments, expiresAt }: any) => {
       updatePostCommentCount(postId, comments, expiresAt);
     };
 
@@ -161,6 +159,7 @@ export const useSocketEvents = () => {
     };
   }, [
     socket,
+    pathname,
     upsertPost,
     removePost,
     setUserCount,

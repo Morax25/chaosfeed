@@ -41,6 +41,7 @@ const Navbar = () => {
         </div>
 
         <User
+        onClick={() => router.push("/profile")}
           className="cursor-pointer hover:text-pink-600 transition-all duration-200 ease-out hover:scale-110"
           size={25}
         />
