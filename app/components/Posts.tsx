@@ -62,25 +62,35 @@ const Posts = ({
 
   useEffect(() => {
     if (!id || !expiresAt) return;
+
     if (prevExpiresAt.current && expiresAt > prevExpiresAt.current) {
       setExtended(true);
-      setTimeout(() => setExtended(false), 700);
+
+      setTimeout(() => {
+        setExtended(false);
+      }, 700);
     }
+
     prevExpiresAt.current = expiresAt;
+
     const interval = setInterval(() => {
       const remaining = Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000));
+
       setPrevTimeLeft((prev) => prev);
+
       setTimeLeft((prev) => {
         setPrevTimeLeft(prev);
         return remaining;
       });
+
       if (remaining <= 0) {
         clearInterval(interval);
-        socket?.emit("post_expired", { postId: id });
+        setTimeLeft(0);
       }
     }, 1000);
+
     return () => clearInterval(interval);
-  }, [id, expiresAt, socket]);
+  }, [id, expiresAt]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -161,7 +171,11 @@ const Posts = ({
                   {username || "N/A"}
                 </h1>
                 <p className="flex items-center gap-1 text-[11px] font-semibold text-violet-400/80 mt-0.5">
-                  <TrendingUp size={10} className="text-blue-400" strokeWidth={2.5} />
+                  <TrendingUp
+                    size={10}
+                    className="text-blue-400"
+                    strokeWidth={2.5}
+                  />
                   Trending
                 </p>
               </div>
@@ -171,7 +185,13 @@ const Posts = ({
               <motion.div
                 animate={
                   extended
-                    ? { scale: [1, 1.12, 1], transition: { duration: 0.45, ease: [0.34, 1.56, 0.64, 1] } }
+                    ? {
+                        scale: [1, 1.12, 1],
+                        transition: {
+                          duration: 0.45,
+                          ease: [0.34, 1.56, 0.64, 1],
+                        },
+                      }
                     : isUrgent
                       ? {}
                       : { scale: 1 }
@@ -198,7 +218,10 @@ const Posts = ({
                       initial={{ y: -10, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       exit={{ y: 8, opacity: 0 }}
-                      transition={{ duration: 0.18, ease: [0.34, 1.56, 0.64, 1] }}
+                      transition={{
+                        duration: 0.18,
+                        ease: [0.34, 1.56, 0.64, 1],
+                      }}
                       className="absolute inset-0 flex items-center justify-center tracking-wide"
                     >
                       {extended ? "+10s" : `${timeLeft ?? "…"}s`}
@@ -226,7 +249,10 @@ const Posts = ({
                       initial={{ opacity: 0, scale: 0.93, y: -6 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.93, y: -6 }}
-                      transition={{ duration: 0.15, ease: [0.34, 1.56, 0.64, 1] }}
+                      transition={{
+                        duration: 0.15,
+                        ease: [0.34, 1.56, 0.64, 1],
+                      }}
                       className="absolute right-0 top-10 z-50 w-44 rounded-2xl border border-white/[0.08] bg-[#0f0f17] shadow-2xl shadow-black/60 overflow-hidden"
                     >
                       <button
@@ -275,7 +301,10 @@ const Posts = ({
                   <motion.div
                     animate={
                       heartPopped
-                        ? { scale: [1, 1.5, 0.9, 1.15, 1], transition: { duration: 0.38, ease: "easeInOut" } }
+                        ? {
+                            scale: [1, 1.5, 0.9, 1.15, 1],
+                            transition: { duration: 0.38, ease: "easeInOut" },
+                          }
                         : { scale: 1 }
                     }
                   >
